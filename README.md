@@ -1,8 +1,8 @@
 # txtCompare
 
-Text comparisons
+Tools for text comparison
 
-=== pairwiseMedite ===
+## pairwiseMedite
 
 Automatically call MEDITE at http://obvil.lip6.fr/medite/:
 * to start pairwise comparisons of all UTF-8 encoded text files in a `files` folder in the same folder and simply execute the script with python: `python pairwiseMedite.py`
