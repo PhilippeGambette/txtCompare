@@ -5,7 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 # 30 second delay between each comparison
-delay = 30
+delay = 20
 
 # start with part number 0
 start = 0
@@ -77,7 +77,7 @@ def mediteComparison(f1,f2,file1String,file2String):
    # Fill one cell in the table
    row = "<td><a href=\"./c-"+str(f1)+"-"+str(f2)+".html\">&#x1F500;</td>"
    
-   if f1==25:
+   if 25==25:
       # Load the MEDITE page
       driver.get("http://obvil.lip6.fr/medite/")
       elem1 = driver.find_element_by_id("etat1")
@@ -89,6 +89,10 @@ def mediteComparison(f1,f2,file1String,file2String):
       #elem1.send_keys(file1String)
       driver.execute_script('document.getElementById("etat2").value="'+file2String.replace('\n',"\\n").replace('"',"''")+'";')
       #elem2.send_keys(file2String)
+
+      # Use character mode instead of word mode
+      characterButton = driver.find_element_by_css_selector("#pcarOuMot")
+      characterButton.click()
          
       # Start MEDITE by clicking the submit button
       submitButton = driver.find_element_by_css_selector("input[type=submit]")
