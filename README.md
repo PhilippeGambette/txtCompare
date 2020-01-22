@@ -12,4 +12,8 @@ Requires Python 3 and selenium with Firefox browser (https://selenium-python.rea
 
 Demo of the result at http://philippegambette.github.io/txtCompare/pairwiseMedite
 
-In order to split long files into smaller parts, insert the character `¤` each time you want to split the file and then use the script decoupeOuvrage.py with the filename as input: `python decoupeOuvrage L_education_sentimentale_1870.txt`
+In order to split long files into smaller parts, insert the character `?` each time you want to split the file and then use the script decoupeOuvrage.py with the filename as input: `python decoupeOuvrage L_education_sentimentale_1870.txt`
+
+## sankeyCompare
+
+Visualize the differences of order of texts in two collections of texts (for example, two editions of a collection of poems, or short stories) with a Sankey Diagram, built in Javascript/jQuery from a spreadsheet file.

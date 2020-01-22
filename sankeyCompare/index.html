@@ -1,0 +1,50 @@
+<html>
+<head>
+  <title>sankeyCompare</title>
+  <meta name="Description" content="sankeyCompare">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <style>
+  ul li:nth-child(4){background-color:lime}
+  body{font-family:Calibri}
+  </style>
+</head>
+<SCRIPT TYPE="text/javascript" SRC="https://cdn.plot.ly/plotly-1.2.0.min.js"></SCRIPT>
+<SCRIPT TYPE="text/javascript" SRC="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></SCRIPT>
+<SCRIPT TYPE="text/javascript" SRC="./sankeyCompare.js"></SCRIPT>
+<body>
+<div class="conteneur">
+
+<h1>Comparaison de l'ordre des nouvelles de <i>L'Heptaméron</i></h1>
+
+<p>
+Le <a href="https://fr.wikipedia.org/wiki/Diagramme_de_Sankey">diagramme de Sankey</a> ci-dessous 
+permet de comparer l'ordre des nouvelles de <i>L'Heptaméron</i> de Marguerite de Navarre,
+dans ses éditions <a href="https://gallica.bnf.fr/ark:/12148/bpt6k1519008r">par Pierre Boaistuau en 1558</a> et 
+<a href="https://gallica.bnf.fr/ark:/12148/btv1b86171930">par Pierre Gruget en 1559</a>.
+</p>
+<p>
+Il est construit automatiquement par un script en Javascript/jQuery de <a href="http://igm.univ-mlv.fr/~gambette">Philippe Gambette</a>, 
+<a href="https://github.com/PhilippeGambette/txtCompare/tree/master/sankeyCompare"><i>sankeyCompare</i></a>, mis à disposition sous licence GPL,
+à partir de <a href="https://docs.google.com/spreadsheets/d/11dMJLEs1Bo_C0Wfsgrz3a_Yw6H0Ow-4pRI2dxGiAXbM/edit?usp=sharing">ce fichier tableur</a>.
+</p>
+<p>
+Cliquez sur un début de titre de nouvelle pour la lire sur Gallica.
+</p>
+
+<div class="svg">
+  <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="300" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"> 
+	<title>sankeyCompare</title> 
+	<g font-family="Calibri"> 
+  </g>
+</svg>
+</div>
+<span style="width: auto; font-family: Calibri; display:none" id="label"></span>
+
+<div style="display:none">
+Entrez votre contenu ci-dessous (contenu séparé par des virgules et entouré par des guillemets droits : "recueil","partie","texte","nb-pages"):<br/>
+<textarea cols="100" rows="20" id="text">
+</textarea>
+</div>
+
+</div>
+</body>
