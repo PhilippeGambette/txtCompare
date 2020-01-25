@@ -14,29 +14,38 @@
 <body>
 <div class="conteneur">
 
-<h1>Comparaison de l'ordre des nouvelles de <i>L'Heptaméron</i></h1>
+<h1><i>sankeyCompare</i> : comparaison de l'ordre des <span id="titreCourt">nouvelles de <i>L'Heptaméron</i></span></h1>
 
 <p>
 Le <a href="https://fr.wikipedia.org/wiki/Diagramme_de_Sankey">diagramme de Sankey</a> ci-dessous 
-permet de comparer l'ordre des nouvelles de <i>L'Heptaméron</i> de Marguerite de Navarre,
+permet de <strong>comparer l'ordre</strong> des 
+<span id="titreLong">nouvelles de <i>L'Heptaméron</i> de Marguerite de Navarre
 dans ses éditions <a href="https://gallica.bnf.fr/ark:/12148/bpt6k1519008r">par Pierre Boaistuau en 1558</a> et 
-<a href="https://gallica.bnf.fr/ark:/12148/btv1b86171930">par Pierre Gruget en 1559</a>.
+<a href="https://gallica.bnf.fr/ark:/12148/btv1b86171930">par Pierre Gruget en 1559</a></span>.
+<strong>Cliquez sur un des titres, dans le diagramme, pour accéder au texte correspondant.</strong>
 </p>
 <p>
 Il est construit automatiquement par un script en Javascript/jQuery de <a href="http://igm.univ-mlv.fr/~gambette">Philippe Gambette</a>, 
-<a href="https://github.com/PhilippeGambette/txtCompare/tree/master/sankeyCompare"><i>sankeyCompare</i></a>, mis à disposition sous licence GPL,
-à partir de <a href="https://docs.google.com/spreadsheets/d/11dMJLEs1Bo_C0Wfsgrz3a_Yw6H0Ow-4pRI2dxGiAXbM/edit?usp=sharing">ce fichier tableur</a>.
+<a href="https://github.com/PhilippeGambette/txtCompare/tree/master/sankeyCompare"><i>sankeyCompare</i></a>, 
+conçu dans le cadre du projet de recherche <a href="http://citedesdames.hypotheses.org/">Cité des dames : créatrices dans la cité</a>
+mis à disposition sous licence GPL, 
+à partir de <a id="sourceData" href="https://docs.google.com/spreadsheets/d/11dMJLEs1Bo_C0Wfsgrz3a_Yw6H0Ow-4pRI2dxGiAXbM/edit?usp=sharing">ce fichier tableur</a>.
 </p>
 <p>
-Cliquez sur un début de titre de nouvelle pour la lire sur Gallica.
+<a href="https://eve.gd/">Martin Paul Eve</a> avait proposé fin 2015 un outil similaire, <a href="https://github.com/MartinPaulEve/SankeyTextualVariant">SankeyTextualVariant</a>, codé avec d3.js, décrit dans cette publication : M. P. Eve (2016) <a href="http://dx.doi.org/10.16995/olh.82">‘You Have to Keep Track of Your Changes’: The Version Variants and Publishing History of David Mitchell’s Cloud Atlas</a>. <i>Open Library of Humanities</i>, 2(2): e1, p. 1–34.
+</p>
+<p>
+Conçu et programmé indépendamment de SankeyTextualVariant, <i>sankeyCompare</i> n'utilise pas d3.js, rend le diagramme interactif avec des liens vers les textes sources, et permet de le colorer en fonction d'un éventuel découpage en parties des deux éditions comparées.
+</p>
+<p>
+Choisir un autre texte : 
+<select id="choix">
+<option selected value="0">éditions de 1558 et 1559 de l’<i>Heptaméron</i> de Marguerite de Navarre</option>
+<option value="1">éditions de 1774 et 1781 des <i>Conversations d’Émilie</i> de Louise d'Épinay</option>
+</select>
 </p>
 
 <div class="svg">
-  <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="300" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"> 
-	<title>sankeyCompare</title> 
-	<g font-family="Calibri"> 
-  </g>
-</svg>
 </div>
 <span style="width: auto; font-family: Calibri; display:none" id="label"></span>
 
