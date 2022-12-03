@@ -5,7 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 # 30 second delay between each comparison
-delay = 20
+delay = 30
 
 # start with part number 0
 start = 0
@@ -106,7 +106,10 @@ def mediteComparison(f1,f2,file1String,file2String):
 
 # Build an HTML index file
 indexFile = open(os.path.join(folder,"index.html"),"w",encoding='utf-8')
-indexFile.writelines("<html><head><style>td{border: 1px solid black; text-align: center;}</style></head><body><table>\n")
+indexFile.writelines("""<html><head><style>td{border: 1px solid black; text-align: center;}</style></head>
+<body>
+<table>
+""")
 
 if mode == "pairwise":
    # pairwise comparison: compare every file of fileNames with every other file of fileNames
@@ -114,15 +117,15 @@ if mode == "pairwise":
    fileNb = 0
    for fileN in fileNames:
       if fileNb > 0:
-         headRow += "<th>"+fileN+"</th>"
+         headRow += "<th>"+fileN+"</th>\n"
       fileNb += 1
    indexFile.writelines(headRow+"</tr>\n")
 
    # Start all pairwise comparisons with MEDITE
    for f1 in range(0,len(files)):
-      row = "<th>"+fileNames[f1]+"</th>"
+      row = "<th>"+fileNames[f1]+"</th>\n"
       for f2 in range(1,f1+1):
-         row += "<td></td>"
+         row += "<td></td>\n"
    
       file1String = openFile(files[f1])
       for f2 in range(f1+1,len(files)):   
@@ -140,13 +143,15 @@ else:
    print("Comparing parts of "+file1+" with parts of "+file2)
    while os.path.isfile(file1+"-"+str(fileNb)+".txt"):
       print("Comparing parts "+str(fileNb))
-      row = "<tr><th>"+str(fileNb)+"</th>"
+      row = "<tr>\n<th>"+str(fileNb)+"</th>\n"
       file1String = openFile(file1+"-"+str(fileNb)+".txt")
       file2String = openFile(file2+"-"+str(fileNb)+".txt")
       row += mediteComparison(fileNb,fileNb,file1String,file2String)
       indexFile.writelines(row+"</tr>\n")
       fileNb += 1
 
-indexFile.writelines("</table></body>")
+indexFile.writelines("""
+</table>
+</body>""")
 indexFile.close()      
 driver.close()
