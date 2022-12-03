@@ -19,3 +19,13 @@ In order to split long files into smaller parts, insert the character `?` each t
 Visualize the differences of order of texts in two collections of texts (for example, two editions of a collection of poems, or short stories) with a Sankey Diagram, built in Javascript/jQuery from a spreadsheet file.
 
 Demo of the result at https://philippegambette.github.io/txtCompare/sankeyCompare
+
+## intertextFinder
+
+How to use (with texts provided in the `.txt` format, UTF-8 encoding):
+* put the corpus into a folder named `TXT` in the same folder as this script
+* put the texts to analyze into a folder named `todo` in the same folder as this script
+* run the script by executing in the console the following command: `python intertextFinder.py`
+* for each text file in the todo folder, a new file with the same name and the extra extension `.html` is added into the same folder, open it in a web browser to see the results
+
+Demo of the result at https://philippegambette.github.io/txtCompare/intertextFinder
