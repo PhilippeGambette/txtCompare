@@ -2,6 +2,16 @@
 
 Tools for text comparison
 
+## intertextFinder
+
+How to use (with texts provided in the `.txt` format, UTF-8 encoding):
+* put the corpus into a folder named `TXT` in the same folder as this script
+* put the texts to analyze into a folder named `todo` in the same folder as this script
+* run the script by executing in the console the following command: `python intertextFinder.py`
+* for each text file in the todo folder, a new file with the same name and the extra extension `.html` is added into the same folder, open it in a web browser to see the results
+
+Demo of the result at https://philippegambette.github.io/txtCompare/intertextFinder
+
 ## pairwiseMedite
 
 Automatically call MEDITE at http://obvil.lip6.fr/medite/:
@@ -20,12 +30,8 @@ Visualize the differences of order of texts in two collections of texts (for exa
 
 Demo of the result at https://philippegambette.github.io/txtCompare/sankeyCompare
 
-## intertextFinder
+## visuLexique
 
-How to use (with texts provided in the `.txt` format, UTF-8 encoding):
-* put the corpus into a folder named `TXT` in the same folder as this script
-* put the texts to analyze into a folder named `todo` in the same folder as this script
-* run the script by executing in the console the following command: `python intertextFinder.py`
-* for each text file in the todo folder, a new file with the same name and the extra extension `.html` is added into the same folder, open it in a web browser to see the results
+Visualisation of the evolution of the frequencies, along a text, of words taken from two input word lists.
 
-Demo of the result at https://philippegambette.github.io/txtCompare/intertextFinder
+Tool available online, with a demo on the *Memoirs* of Marguerite de Valois, at https://philippegambette.github.io/txtCompare/visuLexique
