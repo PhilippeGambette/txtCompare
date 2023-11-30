@@ -1,5 +1,5 @@
-# Visualisation de l'évolution des fréquences d'un groupe de mots tout au long d'un texte
+# Visualisation de l'Ã©volution des frÃ©quences d'un groupe de mots tout au long d'un texte
 
-Ce script Javascript/jQuery sous licence GPL permet, après avoir fourni deux listes de mots et un texte, de voir l'évolution des fréquences des mots tirés de ces deux listes tout au long du texte, décomposé en un certain nombre de blocs fourni en paramètre et facilement modifiable.
+Ce script Javascript/jQuery sous licence GPL permet, aprÃ¨s avoir fourni deux listes de mots et un texte, de voir l'Ã©volution des frÃ©quences des mots tirÃ©s de ces deux listes tout au long du texte, dÃ©composÃ© en un certain nombre de blocs fourni en paramÃ¨tre et facilement modifiable.
 
-Démonstration avec des listes de mots sur la thématique de la ville sur https://philippegambette.github.io/txtCompare/visuLexique/index.html
+DÃ©monstration avec des listes de mots sur la thÃ©matique de la ville sur https://philippegambette.github.io/txtCompare/visuLexique/index.html
