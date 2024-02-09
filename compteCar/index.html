@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body {
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+
+    textarea {
+        width: 100%
+    }
+
+    tr,
+    td {
+        border: 1px solid gray;
+    }
+</style>
+
+<body>
+    <h1>Comptage de caractères</h1>
+    Caractères à compter :<br>
+    <textarea id="characters" rows="6">.
+,
+:
+;
+?
+!
+…
+...
+—
+«
+»
+"
+(
+)</textarea>
+    <br>
+    Texte :<br>
+    <textarea id="text" rows="6"></textarea>
+    <br>
+    <button id="count">Compter les caractères !</button>
+    <h2>Résultats</h2>
+    Nombre total de caractères : <span id="characterNb"></span>
+    <br>
+    <table id="resultTable">
+        <tbody>
+        </tbody>
+    </table>
+    <br>
+    <textarea id="resultText" rows="6">
+    </textarea>
+</body>
+<script>
+
+    document.querySelector("#count").addEventListener("click", function (event) {
+        document.querySelector("#resultTable tbody").innerHTML = "caractère\tnombre d'occurrences\tpourcentage d'occurrences";
+        document.querySelector("#resultText").value = "";
+        let text = document.querySelector("#text").value;
+        let characters = document.querySelector("#characters").value.split("\n");
+        console.log(characters)
+        characters.forEach(c => {
+            let nb = (text.length - text.replaceAll(c, "").length) / c.length;
+            document.querySelector("#resultTable tbody").innerHTML += "<tr><td>" + c + "</td><td>" + nb + "</td></tr>\n";
+            document.querySelector("#resultText").value += c + "\t" + nb + "\t" + (100 * nb / text.length) + "\n";
+            document.querySelector("#characterNb").innerHTML = text.length;
+        })
+    })
+</script>
+
+</html>
