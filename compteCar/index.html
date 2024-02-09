@@ -57,15 +57,15 @@
 <script>
 
     document.querySelector("#count").addEventListener("click", function (event) {
-        document.querySelector("#resultText").innerHTML = "caractère\tnombre d'occurrences\tpourcentage d'occurrences";
-        document.querySelector("#resultText").value = "";
+        document.querySelector("#resultTable tbody").innerHTML = "";
+        document.querySelector("#resultText").value = "caractère\tnombre d'occurrences\tpourcentage d'occurrences";
         let text = document.querySelector("#text").value;
         let characters = document.querySelector("#characters").value.split("\n");
         console.log(characters)
         characters.forEach(c => {
             let nb = (text.length - text.replaceAll(c, "").length) / c.length;
             document.querySelector("#resultTable tbody").innerHTML += "<tr><td>" + c + "</td><td>" + nb + "</td></tr>\n";
-            document.querySelector("#resultText").value += c.replace('"','""') + "\t" + nb + "\t" + (""+(100 * nb / text.length)).replace(".",",)") + "\n";
+            document.querySelector("#resultText").value += c.replace('"','""') + "\t" + nb + "\t" + (""+(100 * nb / text.length)).replace(".",",") + "\n";
             document.querySelector("#characterNb").innerHTML = text.length;
         })
     })
