@@ -1,0 +1,36 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<title>Comparaison de 15 versions de la 65e nouvelle de l'Heptaméron de Marguerite de Navarre avec CollateX</title>
+<style>
+body{font-family:'Calibri';}
+td{border: 1px solid black; text-align: center;}
+table{font-size:10pt;}
+tt{background-color:lightgrey;}
+</style>
+</head><body>
+<h1>Comparaison de 15 versions de la 65<sup>e</sup> nouvelle de l'<i>Heptaméron</i> de Marguerite de Navarre <a href="https://collatex.net/demo/">avec CollateX</a></h1>
+<p>
+À partir du corpus décrit <a href="https://docs.google.com/presentation/d/1Kxn63bif56OQZwcnjvPCzddAlqTVeUsM8dVd-pyLStE/edit?usp=sharing">dans ce diaporama</a>, ont été construits :
+<ul>
+<li>un <a href="./CollateX_Console.html">graphe d'alignement et un tableau d'alignement avec CollateX</a> ;</li>
+<li>le tableau d'alignement avec CollateX peut s'adapter à la largeur de la fenêtre du navigateur (sur la page) :
+<a href="./CollateX_Console_dynamic.html">version dynamique</a> (<a href="./CollateX_Console_1000px.html">version statique</a> de 1000 pixels de largeur) ;</li>
+<li>le <a href="./Heptameron-MAFFT.pdf">résultat de l'alignement réalisé par MAFFT et visualisé par GeneDoc</a> (<a href="./Heptameron.msf">fichier MSF source</a>, <a href="./Heptameron-MAFFT-aln-fasta.txt">fichier FASTA obtenu par MAFFT</a>).</li>
+</ul>
+</p>
+<h1>Tutoriel pour l'utilisation de MAFFT sur des textes littéraires</h1>
+<p>
+<ul>
+<li>formatage des fichiers : remplacer tous les signes de ponctuation par <tt>-</tt>, les <tt>--</tt> par <tt>-</tt>, les <tt>-</tt> par <tt>?</tt>, les <tt>é</tt> par <tt>e</tt>, <tt>à</tt> par <tt>a</tt>, etc., pour obtenir des textes contenant uniquement des mots constitués de caractères de a à z et séparés par un ? ;</li>
+<li>pour obtenir un fichier d'entrée pour MAFFT : 1) chargement de chaque fichier ainsi formaté dans <a href="http://genedoc.software.informer.com/2.7/">GeneDoc</a> (menu "File", "New" puis "File", "Import", puis sélectionner le type "Text" puis cliquer sur "Import" pour chaque fichier texte chargé, puis enfin sur "Done") ; 2) sauvegarde du fichier combinant tous les fichiers, au format MSF, multiple sequence file (menu "File", "Save as...") : obtention du fichier <a href="./Heptameron.msf">Heptameron.msf</a> ;</li>
+<li>envoi de ce fichier dans <a href="https://www.ebi.ac.uk/Tools/msa/mafft/">la version web de MAFFT</a> (output format : "Pearson/FASTA", "More options" &rarr; "Matrix" : "NONE") ;</li>
+<li>télécharger <a href="./Heptameron-MAFFT-aln-fasta.txt">le fichier FASTA résultat</a>, y rechercher/remplacer les <tt>X</tt> majuscules par <tt>_</tt> ;</li>
+<li>ouvrir le fichier FASTA ainsi modifié dans GeneDoc par le menu "File", "Import" ;</li>
+<li>imprimer en PDF depuis GeneDoc (menu "File", "Print") pour obtenir <a href="./Heptameron-MAFFT.pdf">ce PDF</a>.</li>
+</ul>
+Référence de MAFFT : Katoh, Misawa, Kuma, Miyata (2002) <a href="https://doi.org/10.1093/nar/gkf436">MAFFT: a novel method for rapid multiple sequence alignment based on fast Fourier transform</a>, <i>Nucleic Acids Research</i> 30(14):3059-3066.
+
+</p>
+
+</body>
