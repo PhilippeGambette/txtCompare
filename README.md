@@ -4,13 +4,24 @@ Tools for text comparison
 
 ## intertextFinder
 
+### `intertextFinder.py`
 How to use (with texts provided in the `.txt` format, UTF-8 encoding):
-* put the corpus into a folder named `TXT` in the same folder as this script
-* put the texts to analyze into a folder named `todo` in the same folder as this script
-* run the script by executing in the console the following command: `python intertextFinder.py`
-* for each text file in the todo folder, a new file with the same name and the extra extension `.html` is added into the same folder, open it in a web browser to see the results
+* put the corpus into a folder named `TXT` in the same folder as this script;
+* put the texts to analyze into a folder named `todo` in the same folder as this script;
+* run the script by executing in the console the following command: `python intertextFinder.py`;
+* for each text file in the todo folder, a new file with the same name and the extra extension `.html` is added into the same folder, open it in a web browser to see the results.
 
-Demo of the result at [https://philippegambette.github.io/txtCompare/intertextFinder](https://philippegambette.github.io/txtCompare/intertextFinder)
+Demo of the result at [https://philippegambette.github.io/txtCompare/intertextFinder](https://philippegambette.github.io/txtCompare/intertextFinder) to check which poems by Marceline Desbordes-Valmore are present in her 1849 book *Les Anges de la famille*
+
+### `intratextFinder.py`
+How to use (with texts provided in the `.txt` format, UTF-8 encoding):
+* put the corpus into a folder named `TXT` in the same folder as this script;
+* run the script by executing in the console the following command: `python intratextFinder.py`;
+* for each text file in the `TXT` folder, a new file with the same name and the extra extension `.html` is added into the same folder;
+* a file named `intratextFinder.html` is created in the folder containing the script: open it in a web browser to see the results.
+
+Demo of the result at [https://philippegambette.github.io/txtCompare/intertextFinder/intratextFinder.html](https://philippegambette.github.io/txtCompare/intertextFinder/intratextFinder.html) to find intratextuality between three poetry books by Victor Hugo, *Feuilles d'automne*, *Odes et balades* and *Orientales*.
+
 
 ## pairwiseMedite
 
