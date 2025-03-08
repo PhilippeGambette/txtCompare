@@ -24,8 +24,13 @@
 <script src="https://d3js.org/d3-path.v1.min.js"></script>
 <script src="https://d3js.org/d3-chord.v1.min.js"></script>
 <body>
-<h1>Réseau de similarité</h1><div id="graph"></div>
-<h1>Repérage d'intertextualité dans les documents</h1><ul>
+<h1>Réseau de similarité</h1>
+  <p>Dans les réseau ci-dessous, chaque n&oelig;ud représente un des documents comparés (positionnez votre souris dessus pour afficher le nom de fichier en infobulle) et l'épaisseur du lien entre deux n&oelig;uds représente le nombre de séquences de quatre mots consécutifs communes entre deux documents (les couleurs sont attribuées aléatoirement et n'ont donc aucune signification).</p>
+  <div id="graph"></div>
+<h1>Repérage d'intertextualité dans les documents</h1>
+  <p>Dans chaque document, chaque mot en rouge correspond à une séquence d'au moins quatre mots consécutifs (avec les trois mots suivants) trouvée dans un autre document du corpus. Passez la souris sur un mot en rouge pour savoir dans quel(s) autre(s) document(s) ce mot et les trois suivants ont été trouvés.</p>
+  <p>La couleur rouge est d'autant plus pâle que la séquence de quatre mots a été trouvée fréquemment dans le corpus.</p>
+<ul>
 <li><a href="./TXT/Hugo-FeuillesAutomne.txt.html">Hugo-FeuillesAutomne</a></li>
 <li><a href="./TXT/Hugo-OdesEtBalades.txt.html">Hugo-OdesEtBalades</a></li>
 <li><a href="./TXT/Hugo-Orientales.txt.html">Hugo-Orientales</a></li>
