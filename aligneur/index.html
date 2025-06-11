@@ -288,11 +288,11 @@
 232,"('GORGIBUS.', 'Allons choisir le jour pour se donner la foi.')",,205,-,1.0,Insertion
 233,"('SGANARELLE.', ""A-t-on mieux cru jamais être cocu que moi ? Vous voyez qu'en ce fait la plus forte apparence Peut jeter dans l'esprit une fausse créance ? De cet exemple-ci, ressouvenez-vous bien, Et quand vous verriez tout, ne croyez jamais rien. Sans mentir, Monsieur, vous me devez être bien obligé de tant de belles choses que je vous envoie, et tous les melons de votre jardin ne sont pas suffisants pour me payer de la peine d'avoir retenu pour l'amour de vous toute cette pièce par coeur ; mais j'oubliais de vous dire une chose à l'avantage de son auteur, qui est que comme je n'ai eu cette pièce que je vous envoie que par de effort de mémoire, il peut s'y être coulé quantité de mots les uns pour les autres, bien qu'ils signifient la même chose ; et comme ceux de l'auteur peuvent être plus significatifs, je vous prie de m'imputer toutes les fautes de cette nature que vous y trouverez ; et je vous conjure avec tous les curieux de France de venir voir représenter cette pièce comme un des plus beaux ouvrages, et un des mieux joués qui ait jamais paru sur la scène."")","('SPADARILLE.', ""Il est bien des cocus dans le Siècle où nous sommes,  C'est un mal à présent commun à tous les hommes,  Il prend également le laid et le bien fait,  Aucuns le sont en songe, et d'autres en effet,  D'autres le sont aussi qui ne croient pas l'être,  D'autres qui ne font pas semblant de le connaître,  D'autres qui voudraient bien aussi ne l'être pas,  D'autres qui font par là venir de bons Ducats ;  Et d'autres qui toujours se forment des chimères,  Dont le nombre est plus grand, ne sont qu'imaginaires."")",206,174,0.17,Substitution
 </textarea>
-        <button type="button">Charger l'alignement des textes</button>
+        <button type="button" id="load">Charger l'alignement des textes</button>
     </section>
     <section id="aligneur">
         <h2>&Eacute;diteur d'alignement</h2>
-        <textarea id="alignment"></textarea>
+        <!--<textarea id="alignment"></textarea>-->
         <table id="table">
             <tbody>
                 <tr>
@@ -310,48 +310,54 @@
         let data = Papa.parse(document.querySelector("#inputText").innerHTML);
         let n1 = 0;
         let n2 = 0;
-        console.log(data)
-        data.data.forEach(d => {
-            class1 = "";
-            class2 = "";
-            id1 = "";
-            id2 = "";
-            if (d[1] != "") {
-                n1++;
-                id1 = `<span class="insert">+</span><span class="delete">-</span><span class="up">▲</span>${n1}<span class="down">▼</span>`
-            } else {
-                class2 = "insertion"
-            }
-            if (d[2] != "") {
-                n2++;
-                id2 = n2
-            } else {
-                class1 = "deletion"
-            }
-            console.log(d[5])
-            if (d[6] == "Match") {
-                class1 = "match";
-                class2 = "match";
-            }
-            if (d[6] == "Substitution") {
-                if (parseFloat(d[5]) < 0.8) {
-                    class1 = "almost-almost-match";
-                    class2 = "almost-almost-match";
+
+        // Load alignment
+        document.querySelector("#load").addEventListener("click", event => {
+            data = Papa.parse(document.querySelector("#inputText").innerHTML);
+            n1 = 0;
+            n2 = 0;
+            data.data.forEach(d => {
+                class1 = "";
+                class2 = "";
+                id1 = "";
+                id2 = "";
+                if (d[1] != "") {
+                    n1++;
+                    id1 = `<span class="insert">+</span><span class="delete">-</span><span class="up">▲</span>${n1}<span class="down">▼</span>`
+                } else {
+                    class2 = "insertion"
                 }
-                if (parseFloat(d[5]) < 0.5) {
-                    class1 = "almost-match";
-                    class2 = "almost-match";
+                if (d[2] != "") {
+                    n2++;
+                    id2 = n2
+                } else {
+                    class1 = "deletion"
                 }
-            }
-            document.querySelector("tbody").innerHTML += `<tr>
+                console.log(d[5])
+                if (d[6] == "Match") {
+                    class1 = "match";
+                    class2 = "match";
+                }
+                if (d[6] == "Substitution") {
+                    if (parseFloat(d[5]) < 0.8) {
+                        class1 = "almost-almost-match";
+                        class2 = "almost-almost-match";
+                    }
+                    if (parseFloat(d[5]) < 0.5) {
+                        class1 = "almost-match";
+                        class2 = "almost-match";
+                    }
+                }
+                document.querySelector("tbody").innerHTML += `<tr>
             <td>${id1}</td>
             <td class="${class1}">${d[1]}</td>
             <td class="${class2}">${d[2]}</td>
             <td>${id2}</td>
             <td>${d[5]}</td>
             </tr>`;
+            })
+            eventListeners()
         })
-
         function moveDown(event) {
             let target = event.target;
             let tr = target.parentElement.parentElement;
@@ -391,7 +397,7 @@
             eventListeners()
         }
 
-            function insertLine(event) {
+        function insertLine(event) {
             let target = event.target;
             let tr = target.parentElement.parentElement;
             let previousTr = document.createElement("tr");
@@ -433,7 +439,6 @@
             })
         }
 
-        eventListeners()
     </script>
 </body>
 
