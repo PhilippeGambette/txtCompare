@@ -38,8 +38,10 @@
 
         .insert,
         .delete,
-        .down,
-        .up {
+        .down-left,
+        .down-right,
+        .up-left,
+        .up-right {
             cursor: pointer;
         }
 
@@ -310,6 +312,7 @@
         let data = Papa.parse(document.querySelector("#inputText").innerHTML);
         let n1 = 0;
         let n2 = 0;
+        let buttonClass = "";
 
         // Load alignment
         document.querySelector("#load").addEventListener("click", event => {
@@ -323,17 +326,16 @@
                 id2 = "";
                 if (d[1] != "") {
                     n1++;
-                    id1 = `<span class="insert">+</span><span class="delete">-</span><span class="up">▲</span>${n1}<span class="down">▼</span>`
+                    id1 = `<span class="insert">+</span>&nbsp;<span class="delete">&ndash;</span><span class="up-left">▲</span>${n1}<span class="down-left">▼</span>`
                 } else {
                     class2 = "insertion"
                 }
                 if (d[2] != "") {
                     n2++;
-                    id2 = n2
+                    id2 = `<span class="insert">+</span>&nbsp;<span class="delete">&ndash;</span><span class="up-right">▲</span>${n2}<span class="down-right">▼</span>`
                 } else {
                     class1 = "deletion"
                 }
-                console.log(d[5])
                 if (d[6] == "Match") {
                     class1 = "match";
                     class2 = "match";
@@ -358,16 +360,30 @@
             })
             eventListeners()
         })
-        function moveDown(event) {
+
+        function moveLine(event) {
             let target = event.target;
+            let direction = target.classList[0]
+            let columnNumber = 1;
+            let idColumnNumber = 0;
+            if(direction.split("-")[1]=="right"){
+                columnNumber = 2;
+                idColumnNumber = 3;
+            }
+
+            console.log(direction)
             let tr = target.parentElement.parentElement;
-            let nextTr = tr.nextSibling;
-            if (nextTr.querySelectorAll("td")[1].innerHTML == "") {
+            let adjacentTr = tr.nextSibling;
+            if(direction.split("-")[0]=="up"){
+                adjacentTr = tr.previousSibling;
+                console.log("previous")
+            }
+            if (adjacentTr.querySelectorAll("td")[columnNumber].innerHTML == "") {
                 // précédent élément vide
-                nextTr.querySelectorAll("td")[0].innerHTML = tr.querySelectorAll("td")[0].innerHTML;
-                tr.querySelectorAll("td")[0].innerHTML = "";
-                nextTr.querySelectorAll("td")[1].innerHTML = tr.querySelectorAll("td")[1].innerHTML;
-                tr.querySelectorAll("td")[1].innerHTML = "";
+                adjacentTr.querySelectorAll("td")[idColumnNumber].innerHTML = tr.querySelectorAll("td")[idColumnNumber].innerHTML;
+                tr.querySelectorAll("td")[idColumnNumber].innerHTML = "";
+                adjacentTr.querySelectorAll("td")[columnNumber].innerHTML = tr.querySelectorAll("td")[columnNumber].innerHTML;
+                tr.querySelectorAll("td")[columnNumber].innerHTML = "";
             }
             eventListeners()
         }
@@ -415,15 +431,9 @@
         function eventListeners() {
 
             // déplace vers le haut
-            document.querySelectorAll(".up").forEach(e => {
-                e.removeEventListener("click", moveUp);
-                e.addEventListener("click", moveUp);
-            })
-
-            // déplace vers le bas
-            document.querySelectorAll(".down").forEach(e => {
-                e.removeEventListener("click", moveDown);
-                e.addEventListener("click", moveDown);
+            document.querySelectorAll(".up-left,.up-right,.down-left,.down-right").forEach(e => {
+                e.removeEventListener("click", moveLine);
+                e.addEventListener("click", moveLine);
             })
 
             // insère en haut
