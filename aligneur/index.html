@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aligneur</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"
+        integrity="sha512-dfX5uYVXzyU8+KHqj8bjo7UkOdg18PaOtpa48djpNbZHwExddghZ+ZmzWT06R5v6NSk3ZUfsH6FNEDepLx9hPQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+    <style>
+        #inputText {
+            width: 100%
+        }
+
+        .insertion {
+            background-color: #BBFFBB;
+        }
+
+        .deletion {
+            background-color: #FFBBBB;
+        }
+
+        .match {
+            background-color: #BBBBFF;
+        }
+
+        .almost-almost-match {
+            background-color: #EEEEFF;
+        }
+
+        .almost-match {
+            background-color: #DDDDFF;
+        }
+
+        .insert,
+        .delete,
+        .down,
+        .up {
+            cursor: pointer;
+        }
+
+        td,
+        th {
+            border: 1px solid grey;
+        }
+    </style>
+    <h1>Aligneur</h1>
+    <section id="chargement">
+        <h2>Chargement des textes</h2>
+        Chargement des textes alignés :<br>
+        <textarea id="inputText">,Play 1,Play2,Op symbol1,Op symbol2,Cost,Operation Type
+0,"('CÉLIE, sortant toute éplorée, et son père la suivant.', ""Ah ! N'espérez jamais que mon coeur y consente."")","('ALCIPPE, sortant en colère, et son père le suivant.', ""Non, n'espérez jamais de m'y voir consentir. "")",0,0,0.0,Match
+1,,"('GÉRONTE.', ""Est-ce ainsi qu'à son père, un fils doit répartir ?  Si vous ne répondez bientôt à mon envie,  Si d'un « oui » que j'attends je ne la vois suivie,  Avant qu'il soit deux jours je vous ferai savoir  Combien sur ses enfants un père a de pouvoir. "")",-,1,1.0,Deletion
+2,"('GORGIBUS.', ""Que marmottez-vous là, petite impertinente ? Vous prétendez choquer ce que j'ai résolu, Je n'aurai pas sur vous un pouvoir absolu, Et par sottes raisons votre jeune cervelle Voudrait régler ici la raison paternelle ? Qui de nous deux à l'autre a droit de faire loi, À votre avis, qui mieux, ou de vous, ou de moi Ô sotte, peut juger ce qui vous est utile ? Par la corbleu, gardez d'échauffer trop ma bile, Vous pourriez éprouver sans beaucoup de longueur Si mon bras sait encore montrer quelque vigueur, Votre plus court sera, Madame la mutine, D'accepter sans façons l'époux qu'on vous destine. J'ignore, dites-vous, de quelle humeur il est, Et dois auparavant consulter s'il vous plaît. Informé du grand bien qui lui tombe en partage, Dois-je prendre le soin d'en savoir davantage, Et cet époux, ayant vingt mille bons ducats, Pour être aimé de vous doit-il manquer d'appas ? Allez, tel qu'il puisse être avec cette somme, Je vous suis caution qu'il est très honnête homme."")","('ALCIPPE.', ""Si pour moi vous gardez encor quelque tendresse,  Ah ! daignez m'empêcher de mourir de tristesse,  Veuillez ne point forcer mon inclination,  Me donnant à l'objet de mon aversion.  Je ne demande rien qui n'ait de la justice,  Puisque enfin il n'est point de plus rude supplice  Et que c'est attacher des vivants à des morts  Que vouloir sans amour joindre ensemble deux corps. "")",1,2,0.12,Substitution
+3,"('CÉLIE.', 'Hélas !')","('GÉRONTE.', ""Être joint à l'objet le plus beau de la Ville,  Le supplice à souffrir n'est pas fort difficile. "")",2,3,1.67,Substitution
+4,,"('ALCIPPE.', ""Puisque Hippolyte est belle, elle ne me plaît pas.  Elle a, vous le savez, par ses puissants appas  Acquis beaucoup d'amants, et peut-être son âme  Conservera pour eux quelque reste de flamme. "")",-,4,1.0,Deletion
+5,,"('GÉRONTE.', ""Allez, dessus ce point c'est à tort s'alarmer,  Puisqu'on tient qu'il n'est pas possible d'exprimer  L'amour qu'à son mari porte une jeune femme  Quand une fois il a pu surprendre son âme,  Et lui faire goûter les secrètes douceurs  Dont amour sait toujours faire jouir deux coeurs. "")",-,5,1.0,Deletion
+6,,"('ALCIPPE.', ""Quand elle m'aimerait et me serait fidèle,  Mon coeur ne peut avoir de tendresse pour elle. "")",-,6,1.0,Deletion
+7,"('GORGIBUS.', ""Eh bien hélas ! Que veut dire ceci ? Voyez le bel hélas ! Qu'elle nous donne ici. Hé ! Que si la colère une fois me transporte, Je vous ferai chanter hélas ! De belle sorte. Voilà, voilà le fruit de ces empressements, Qu'on vous voit nuit et jour à lire vos romans, De quolibets d'amour votre tête est remplie, Et vous parlez de Dieu bien moins que de Clélie. Jetez-moi dans le feu tous ces méchants écrits Qui gâtent tous les jours tant de jeunes esprits, Lisez-moi comme il faut au lieu de ces sornettes Les quatrains de Pybrac, et les doctes tablettes Du conseiller Mathieu, ouvrage de valeur, Et plein de beaux dictons à réciter par coeur. La Guide des pêcheurs est encore un bon livre, C'est là qu'en peu de temps on apprend à bien vivre, Et si vous n'aviez lu que ces moralités, Vous sauriez un peu mieux suivre mes volontés."")","('GÉRONTE.', ""Si c'est là le sujet qui vous fait rejeter  L'hymen, où chaque jour je tâche à vous porter,  Épousez, épousez, dès demain Hippolyte,  Et vous verrez mon fils, qu'un glorieux mérite  Joint aux puissants attraits d'un objet si charmant,  Vous contraindra dans peu de l'aimer tendrement.  Quoi, ne savez-vous pas, ce que peut une femme,  L'empire qu'elle prend malgré nous sur notre âme ?  Ah ! si vous l'ignorez, vous pourrez bientôt voir  Et quelle est son adresse et quel est son pouvoir ;  Quand la belle Hippolyte après son mariage,  Avec des traits de feu marqués sur son visage ;  D'elle-même viendra vous appelant son coeur  Vous donner un baiser ; mais si plein de douceur,  Qu'extasié soudain par des transports de flamme,  Vous sentirez l'amour se glisser dans votre âme,  Et vous confesserez en goûtant ces douceurs  Que quand ce sexe veut il sait gagner des coeurs. "")",3,7,0.06,Substitution
+8,,"('ALCIPPE.', ""Celles qui près de nous font ainsi les flatteuses,  Ont des motifs cachés et sont fort dangereuses,  Et lorsque leur amour nous fait voir tant d'ardeur  Notre bourse est leur but, plutôt que notre coeur. "")",-,8,1.0,Deletion
+9,,"('GÉRONTE.', ""Ne condamnez pas tant ce qu'il faut qu'on estime,  D'une belle vertu ne faites pas un crime,  Et ressouvenez-vous que je veux que demain  Malgré vous Hippolyte obtienne votre main. "")",-,9,1.0,Deletion
+10,"('CÉLIE.', ""Quoi vous prétendez donc mon père, que j'oublie La constante amitié que je dois à Lélie ? J'aurais tort si sans vous je disposais de moi ; Mais vous-même à ses voeux engageâtes ma foi."")","('ALCIPPE.', ""Hélas ! Souvenez-vous que j'adore Céphise,  Et qu'ayant su l'ardeur dont mon âme est éprise,  Sa mère en eut de vous un plein consentement. "")",4,10,0.5,Substitution
+11,"('GORGIBUS.', ""Lui fût-elle engagée encore davantage, Un autre est survenu dont le bien l'en dégage. Lélie est fort bien fait ; mais apprends qu'il n'est rien Qui ne doive céder au soin d'avoir du bien, Que l'or donne aux plus laids certain charme pour plaire, Et que sans lui le reste est une triste affaire. Valère, je crois bien n'est pas de toi chéri ; Mais s'il ne l'est amant, il le sera mari. Plus que l'on ne le croit ce nom d'époux engage Et l'amour est souvent un fruit du mariage. Mais suis-je pas bien fat de vouloir raisonner, Où de droit absolu j'ai pouvoir d'ordonner ? Trêve donc je vous prie à vos impertinences, Que je n'entende plus vos sottes doléances : Ce gendre doit venir vous visiter ce soir, Manquez un peu, manquez, à le bien recevoir, Si je ne vous lui vois faire fort bon visage Je vous... Je ne veux pas en dire davantage."")","('GÉRONTE.', ""Dans ce siècle la foi se trouve rarement.  J'ai promis, il est vrai, mais le bien d'Hippolyte  Me fait trouver en elle un peu plus de mérite.  Je vous laisse, songez que vous devez ce soir  Venir avecque moi chez elle pour la voir. "")",5,11,0.5,Substitution
+12,,"('ALCIPPE.', ""Puissante Déité que l'on adore en terre,  Amour, faut-il, que l'or, te fasse ainsi la guerre ? "")",-,12,1.0,Deletion
+13,"('LA SUIVANTE.', ""Quoi refuser Madame, avec cette rigueur, Ce que tant d'autres gens voudraient de tout leur coeur, À des offres d'hymen répondre par des larmes Et tarder tant à dire un oui si plein de charmes. Hélas ! Que ne veut-on aussi me marier, Ce ne serait pas moi qui se ferait prier, Et loin qu'un pareil oui me donnât de la peine Croyez que j'en dirais bien vite une douzaine. Le précepteur qui fait répéter la leçon À votre jeune frère, a fort bonne raison, Lorsque nous discourant des choses de la terre, Il dit que la femelle est ainsi que le lierre, Qui croît beau tant qu'à l'arbre il se tient bien serré, Et ne profite point s'il en est séparé. Il n'est rien de plus vrai, ma très chère maîtresse, Et je l'éprouve en moi chétive pécheresse. Le bon Dieu fasse paix à mon pauvre Martin, Mais j'avais, lui vivant, le teint d'un chérubin, L'embonpoint merveilleux, l'oeil gai, l'âme contente, Et je suis maintenant ma commère dolente. Pendant cet heureux temps, passé comme un éclair, Je me couchais sans feu dans le fort de l'hiver, Sécher même les draps me semblait ridicule, Et je tremble à présent dedans la canicule. Enfin il n'est rien tel, Madame, croyez-moi, [Que d'avoir un mari la nuit auprès de soi,] Ne fût-ce que pour l'heur d'avoir qui vous salue D'un Dieu vous soit en aide alors qu'on éternue."")","('ROGUESPINE.', ""À quoi songez-vous donc Monsieur, de rebuter  Ce que d'autres que vous prendraient sans hésiter.  Que ne veut-on aussi me donner une femme,  Ma foi je la prendrais et de toute mon âme  Sans hésiter du tout. Dieu veuille avoir l'esprit  De ma pauvre Gillette. Ah ! que j'ai de dépit  Quand je songe à sa mort. J'avais pendant sa vie  Un teint à qui Bacchus eût porté même envie,  Un visage rougeaud, et si plein de santé,  Que j'ose vous jurer en saine vérité,  Moi qui ne jure point si la chose n'est claire  Que tous les marmousets des enseignes à bière  Étaient auprès de moi pâles et décharnés,  Et n'avaient point du tout de rubis sur le nez.  Je ne voyais jamais passer aucun Dimanche,  Qu'elle ne me vînt mettre une chemise blanche,  À mes habits jamais on ne voyait de trous,  Tant le soin était grand de tout boucher chez nous.  Quand j'avais bu souvent avec quelque compère,  Comme cela pouvait m'arriver d'ordinaire,  Et qu'au logis le soir, de crainte de manger,  Je faisais le malade, afin de m'obliger  À prendre, disait-elle, un peu de nourriture,  Mange, mange, mon fils, mange, je t'en conjure,  Me disait la pauvrette avec la larme à l'oeil,  Si tu ne veux bientôt me voir mettre au cercueil.  L'hiver même les draps étant plus froids que glace,  Elle s'allait coucher pour échauffer ma place,  Et me criait après de la venir trouver.  Il vous faudrait enfin, Monsieur, pour éprouver  Les plaisirs les plus doux qu'on goûte dans la vie  Prendre vite une femme, et je vous en convie. "")",6,13,0.0,Match
+14,"('CÉLIE.', ""Peux-tu me conseiller de commettre un forfait, D'abandonner Lélie, et prendre ce malfait ?"")","('ALCIPPE.', ""Ah ! ne me parle point de cette lâcheté,  Ne me conseille point une infidélité,  J'ai promis à Céphise, et je... "")",7,14,0.74,Substitution
+15,"('LA SUIVANTE.', ""Votre Lélie aussi, n'est ma foi qu'une bête, Puisque si hors de temps son voyage l'arrête, Et la grande longueur de son éloignement Me le fait soupçonner de quelque changement."")","('ROGUESPINE.', ""Votre Céphise,  D'un violent amour ne paraît pas éprise.  Depuis quinze ou vingt jours elle passe son temps  À se bien divertir en sa maison des Champs,  Et quoi que sur sa mère, elle ait beaucoup d'empire,  Elle ne prendrait pas la peine de lui dire  De faire un tour ici, ce qui fait que je crois  Qu'envers vous cette belle, a pu manquer de foi. "")",8,15,0.7,Substitution
+16,"('CÉLIE, lui montrant le portrait de Lélie.', ""Ah ! Ne m'accable point par ce triste présage, Vois attentivement les traits de ce visage, Ils jurent à mon coeur d'éternelles ardeurs, Je veux croire après tout qu'ils ne sont pas menteurs, Et comme c'est celui que l'art y représente, Il conserve à mes feux une amitié constante."")","('ALCIPPE.', ""Non, non, elle me garde une flamme éternelle ;  Mais peut-être ayant su la funeste nouvelle  Du mépris que mon père a fait de ses appas,  Elle est dessus le point... te le dirai-je ? Hélas !  Sur le point d'expirer. "")",9,16,0.24,Substitution
+17,,"('ROGUESPINE.', ""La cause est raisonnable  D'un tel retardement. "")",-,17,1.0,Deletion
+18,"('LA SUIVANTE.', ""Il est vrai que ces traits marquent un digne amant, Et que vous avez lieu de l'aimer tendrement."")","('ALCIPPE.', ""Que je suis misérable ;  Mais cependant qu'elle est absente de ces lieux  Dans son portrait du moins admirons ses beaux yeux.  Dieux ! qu'ils font rejaillir d'éclat sur sa peinture,  Ils mettent de nouveau mon coeur à la torture,  Ah ! faut-il... je me meurs.  Il laisse tomber le portrait de Céphise."")",10,18,0.92,Substitution
+19,"('CÉLIE.', 'Et cependant il faut... ah ! Soutiens-moi. Laissant tomber le portrait de Lélie.')",,11,-,1.0,Insertion
+20,"('LA SUIVANTE.', ""Madame, D'où vous pourrait venir... Ah ! Bons dieux elle pâme. Hé ! Vite, holà, quelqu'un."")","('ROGUESPINE.', ""Qui peut causer en vous...  Mais il s'évanouit. Vite ? Quelqu'un ? À nous ? "")",12,19,0.62,Substitution
+21,"('SGANARELLE.', ""Qu'est-ce donc ? Me voilà."")","('PAQUETTE.', ""Quel bruit viens-je d'entendre auprès de ma fenêtre ? "")",13,20,0.76,Substitution
+22,"('LA SUIVANTE.', 'Ma maîtresse se meurt.')",,14,-,1.0,Insertion
+23,"('SGANARELLE.', ""Quoi ce n'est que cela ? Je croyais tout perdu de crier de la sorte ; Mais approchons pourtant[.] Madame, êtes-vous morte. Hays, elle ne dit mot."")","('ROGUESPINE.', 'Aidez-moi je vous prie à soutenir mon Maître ;  Ce mal lui vient de prendre ici subitement. ')",15,21,1.44,Substitution
+24,"('LA SUIVANTE.', ""Je vais faire venir Quelqu'un pour l'emporter, veuillez la soutenir."")","('PAQUETTE.', ""Il faut le secourir si l'on peut promptement. "")",16,22,1.11,Substitution
+25,"('SGANARELLE, en lui passant la main sur le sein.', ""Elle est froide partout, et je ne sais qu'en dire, Approchons-nous pour voir si sa bouche respire. Ma foi, je ne sais pas, mais j'y trouve encor moi Quelque signe de vie."")","('SPADARILLE, regardant par sa fenêtre voit que sa femme soutient Alcippe.', ""Que vois-je, juste Ciel ! je crois que c'est ma femme,  Qui tient dedans ses bras... elle mourra l'infâme  Et je vais s'il se peut la prendre sur le fait. "")",17,23,0.74,Substitution
+26,,"('ROGUESPINE.', ""Hélas ! mon pauvre maître, ah ! bon Dieu, c'en est fait,  Ciel ! "")",-,24,1.0,Deletion
+27,"('LA FEMME DE SGANARELLE, regardant par la fenêtre.', ""Ah ! Qu'est-ce que je vois ? Mon mari dans ses bras...  Mais je m'en vais descendre, Il me trahit sans doute, et je veux le surprendre."")","(""PAQUETTE, mettant la main sur la bouche d'Alcippe."", 'Il respire encore, et je sens son haleine. ')",18,25,1.39,Substitution
+28,"('SGANARELLE.', ""Il faut se dépêcher de l'aller secourir, Certes elle aurait tort de se laisser mourir, Aller en l'autre monde est très grande sottise, Tant que dans celui-ci l'on peut être de mise. Il l'emporte avec un homme que la suivante amène."")","('ROGUESPINE.', ""Si vous vouliez un peu prendre avec moi la peine  De l'emporter chez lui. "")",19,26,0.89,Substitution
+29,,"('PAQUETTE.', ""Oui, j'y vais de bon coeur.  Que son visage encore conserve de douceur.  À part."")",-,27,1.0,Deletion
+30,"('LE FEMME de SGANARELLE, seule.', ""Il s'est subitement éloigné de ces lieux, Et sa fuite a trompé mon désir curieux. Mais de sa trahison je ne fais plus de doute, Et le peu que j'ai vu me la découvre toute. Je ne m'étonne plus de l'étrange froideur Dont je le vois répondre à ma pudique ardeur, Il réserve, l'ingrat, ses caresses à d'autres, Et nourrit leurs plaisirs par le jeûne des nôtres. Voilà de nos maris, le procédé commun, Ce qui leur est permis, leur devient importun. Dans les commencements ce sont toutes merveilles ; Ils témoignent pour nous des ardeurs non pareilles ; Mais les traîtres bientôt se lassent de nos feux, Et portent autre part ce qu'ils doivent chez eux. Ah ! Que j'ai de dépit, que la loi n'autorise, À changer de mari comme on fait de chemise : Cela serait commode, et j'en sais telle ici Qui comme moi ma foi le voudrait bien aussi. Mais quel est ce bijou que le sort me présente ? L'émail en est fort beau, la gravure charmante. Ouvrons. En ramassant le portrait que Célie avait laissé tomber."")","('SPADARILLE, seul.', ""Cette infidèle a fui, et sans oser m'attendre  Jugeant bien qu'en ce lieu, je la viendrais surprendre.  Avec le scélérat, le traître suborneur  Qui vient impunément de lui ravir l'honneur.  Je ne m'étonne plus pourquoi cette maligne  Sans sujet tous les jours me fait mauvaise mine,  Elle cherche à crier, sans doute, et voudrait bien  M'obliger à la battre, afin d'avoir son bien.  Les femmes maintenant sont tout à fait volages,  Et souvent quinze jours après leurs mariages,  Elles ont de la peine à souffrir leurs maris :  Leur inconstance va jusqu'à leurs favoris,  Et voulant tous les jours faire de nouveaux dupes,  Elles changent autant de galants que de jupes :  Les nouveautés enfin charment si fort leurs sens,  Elles ont à leurs yeux des attraits si puissants,  Que s'il pouvait encor venir en cette ville  Un Roi d'Éthiopie, il serait difficile,  Qu'il les pût contenter ; mais qu'est-ce que je vois ?  Ouvrons, c'est un portrait qui n'est pas sot ma foi.  Il ramasse le portrait qu'Alcippe a laissé tomber."")",20,28,0.0,Match
+31,"('SGANARELLE.', ""On la croyait morte et ce n'était rien, Il n'en faut plus qu'autant, elle se porte bien. Mais j'aperçois ma femme."")","('PAQUETTE.', ""Son mal n'était qu'amour qui troublait trop son âme ;  Mais j'aperçois mon homme. "")",21,29,0.67,Substitution
+32,"('SA FEMME.', ""Ô ciel ! C'est miniature, Et voilà d'un bel homme une vive peinture."")","('SPADARILLE.', ""Ô Dieux ! c'est d'une femme  Dont je tiens la peinture. Ô Ciel ! qu'elle a d'appas ! "")",22,30,0.38,Substitution
+33,"(""SGANARELLE, à part, et regardant sur l'épaule de sa femme."", ""Que considère-t-elle avec attention ? Ce portrait mon honneur ne nous dit rien de bon, D'un fort vilain soupçon je me sens l'âme émue."")","('PAQUETTE, à part regardant par dessus son épaule.', 'Il regarde un portrait, que dois-je croire hélas ? ')",23,31,0.87,Substitution
+34,"(""SA FEMME, sans l'apercevoir, continue."", ""Jamais rien de plus beau ne s'offrit à ma vue. Le travail plus que l'or s'en doit encore priser. Hon que cela sent bon."")",,24,-,1.0,Insertion
+35,"('SGANARELLE, à part.', ""Quoi peste le baiser ! Ah ! J'en tiens."")",,25,-,1.0,Insertion
+36,"('SA FEMME, poursuit.', ""Avouons qu'on doit être ravie Quand d'un homme ainsi fait on se peut voir servie, Et que s'il en contait avec attention, Le penchant serait grand à la tentation. Ah ! Que n'ai-je un mari d'une aussi bonne mine, Au lieu de mon pelé, de mon rustre... "")","('SPADARILLE, poursuit.', ""Certes cette beauté n'a rien qui ne m'attire,  Déjà sans y penser je suis sous son empire.  Ah ! si ma femme avait des charmes aussi doux... "")",26,32,0.46,Substitution
+37,"('SGANARELLE, lui arrachant le portrait.', ""Ah ! Mâtine, Nous vous y surprenons en faute contre nous, Et diffamant l'honneur de votre cher époux : Donc à votre calcul, ô ma trop digne femme ! Monsieur, tout bien compté, ne vaut pas bien Madame ? Et de par Belzébuth qui vous puisse emporter Quel plus rare parti pourriez-vous souhaiter ? Peut-on trouver en moi quelque chose à redire ? Cette taille, ce port, que tout le monde admire, Ce visage si propre à donner de l'amour, Pour qui mille beautés soupirent nuit et jour ; Bref en tout et par tout ma personne charmante N'est donc pas un morceau dont vous soyez contente : Et pour rassasier votre appétit gourmand, Il faut à son mari le ragoût d'un galant."")","(""PAQUETTE, lui arrachant le portrait qu'il tient."", ""Nous t'y surprenons traître, en parlant mal de nous,  Pouvais-tu, dis-le moi, rencontrer une femme,  Qui dût plus justement régner dessus ton âme ;  Et puisque tant de gens te disent chaque jour  Que j'ai plus de beautés que la mère d'amour ;  En peux-tu bien douter après leur témoignage. "")",27,33,0.0,Match
+38,"('SA FEMME.', ""J'entends à demi-mot où va la raillerie, Tu crois par ce moyen..."")","('SPADARILLE, à part.', ""Je devrais les voir seul, et c'est de quoi j'enrage. "")",28,34,1.5,Substitution
+39,"('SGANARELLE.', ""À d'autres, je vous prie, La chose est avérée, et je tiens dans mes mains Un bon certificat du mal dont je me plains."")",,29,-,1.0,Insertion
+40,"('SA FEMME.', ""Mon courroux n'a déjà que trop de violence, Sans le charger encore d'une nouvelle offense ; Écoute, ne crois pas retenir mon bijou, Et songe un peu..."")","('PAQUETTE, continue.', ""Et cependant encor tu parais peu content  D'une femme si rare et qu'on estime tant ;  Et qui peut se vanter enfin d'être si belle,  Que toujours mille amants soupirent autour d'elle  Sans pouvoir toutefois jamais rien obtenir. "")",30,35,0.36,Substitution
+41,"('SGANARELLE.', ""Je songe à te rompre le cou. Que ne puis-je aussi bien que je tiens la copie Tenir l'original !"")","('SPADARILLE.', ""Tout ce discours n'est fait qu'afin de retenir  Mon portrait, mais aga, rends-le moi je te prie. "")",31,36,0.92,Substitution
+42,"('SA FEMME.', 'Pourquoi ?')",,32,-,1.0,Insertion
+43,"('SGANARELLE.', ""Pour rien mamie, Doux objet de mes voeux j'ai grand tort de crier, Et mon front de vos dons vous doit remercier. Le voilà le beau-fils, le mignon de couchette, Le malheureux tison de ta flamme secrète, Le drôle avec lequel... Regardant le portrait de Lélie."")","('PAQUETTE.', ""De nouveau ce discours excite ma furie,  Ce portrait me fait trop savoir ta lâcheté ;  Je connais maintenant ton infidélité.  Ah ! que si je pouvais attraper cette femme  Ainsi que son portrait, elle verrait l'infâme. "")",33,37,0.43,Substitution
+44,"('SA FEMME.', 'Avec lequel, poursuis ?')",,34,-,1.0,Insertion
+45,"('SGANARELLE.', ""Avec lequel te dis-je... Et j'en crève d'ennuis."")",,35,-,1.0,Insertion
+46,"('SA FEMME.', 'Que me veut donc par là conter ce maître ivrogne ?')","('SPADARILLE.', 'Que verrait-elle ? Hé bien ? ')",36,38,1.35,Substitution
+47,"('SGANARELLE.', ""Tu ne m'entends que trop, Madame la carogne, Sganarelle, est un nom qu'on ne me dira plus, Et l'on va m'appeler Seigneur Corneillius : J'en suis pour mon honneur ; mais à toi qui me l'ôtes, Je t'en ferai du moins pour un bras ou deux côtes."")","('PAQUETTE.', ""L'invincible fureur  Que ton crime et le sien allume dans mon coeur.  Pour vous faire à tous deux une guerre immortelle,  Spadarille fait mine de ne se pas soucier de ce qu'elle dit.  N'ai-je pas tort encor, de crier contre celle  Qui m'ôte tous les jours ce qui n'est dû qu'à moi. "")",37,39,0.52,Substitution
+48,"('SA FEMME.', ""Et tu m'oses tenir de semblables discours ?"")",,38,-,1.0,Insertion
+49,"('SGANARELLE.', ""Et tu m'oses jouer de ces diables de tours."")",,39,-,1.0,Insertion
+50,"('SA FEMME.', 'Et quels diables de tours, parle donc sans rien feindre.')","('SPADARILLE.', 'Je ne te comprends point, de grâce explique-toi. ')",40,40,1.12,Substitution
+51,"('SGANARELLE.', ""Ah ! Cela ne vaut pas la peine de se plaindre. D'un panache de cerf sur le front me pourvoir. Hélas ! Voilà vraiment un beau venez-y voir."")",,41,-,1.0,Insertion
+52,"('SA FEMME.', ""Donc, après m'avoir fait la plus sensible offense Qui puisse d'une femme exciter la vengeance, Tu prends d'un feint courroux le vain amusement Pour prévenir l'effet de mon ressentiment : D'un pareil procédé l'insolence est nouvelle, Celui qui fait l'offense est celui qui querelle."")","('PAQUETTE.', ""C'est que tu ne veux point malheureux me comprendre,  Et si c'était un autre on pourrait bien l'entendre.  Que faire maintenant, chacun va désormais  Ne plus trouver en moi que de faibles attraits.  Son mari (dira-t-on) ne peut être infidèle  Que parce qu'à présent Paquette n'est plus belle. "")",42,41,0.58,Substitution
+53,"('SGANARELLE.', 'Eh ! La bonne effrontée, à voir ce fier maintien Ne la croirait-on pas une femme de bien.')",,43,-,1.0,Insertion
+54,"('SA FEMME.', ""Va, poursuis ton chemin, cajole tes maîtresses, Adresse-leur tes voeux, et fais-leur des caresses ; Mais rends-moi mon portrait sans te jouer de moi. Elle lui arrache le portrait et s'enfuit."")","('SPADARILLE.', ""Tu ne me tiendrais point de semblables discours  Si je ne savais pas tes infâmes amours  Perfide ; mais dans peu je pourrai bien te dire  Quel est le Jouvenceau pour qui ton coeur soupire.  Il lui arrache le portrait de Céphise, et s'enfuit.  Mais rends moi mon portrait. "")",44,42,0.0,Match
+55,"('SGANARELLE, courant après elle.', ""Oui, tu crois m'échapper, je l'aurai malgré toi."")","('PAQUETTE.', ""Ah ! Je me vengerai  Traître, et dès aujourd'hui malgré toi je l'aurai. "")",45,43,0.22,Substitution
+56,"('GROS-RENÉ.', ""Enfin, nous y voici ; mais, monsieur, si je l'ose, Je voudrais vous prier de me dire une chose."")","('BÉATRIX.', ""Nous voici dans Paris, souvenez-vous Madame,  Que vous devez enfin m'ouvrir toute votre âme,  Et que vous m'avez dit que je saurais aussi  Qui vous a fait presser votre retour ici. "")",46,44,0.26,Substitution
+57,"('LÉLIE.', 'Hé bien, parle.')",,47,-,1.0,Insertion
+58,"('GROS-RENÉ.', ""Avez-vous le diable dans le corps Pour ne pas succomber à de pareils efforts ? Depuis huit jours entiers avec vos longues traites Nous sommes à piquer de chiennes de mazettes, De qui le train maudit nous a tant secoués, Que je m'en sens pour moi tous les membres roués, Sans préjudice encor d'un accident bien pire, Qui m'afflige un endroit que je ne veux pas dire ; Cependant arrivé vous sortez bien et beau Sans prendre de repos, ni manger un morceau."")",,48,-,1.0,Insertion
+59,"('LÉLIE.', ""Ce grand empressement n'est point digne de blâme De l'hymen de Célie, on alarme mon âme ; Tu sais que je l'adore, et je veux être instruit Avant tout autre soin de ce funeste bruit."")","('CÉPHISE.', ""Oui je m'en ressouviens et je tiens ma promesse,  Apprends donc le sujet de l'ennui qui me presse.  Tu sais depuis longtemps qu'Alcippe est sous mes lois,  Que mon coeur a toujours applaudi à son choix.  Mais tu ne peux savoir que depuis peu son père  Était de notre hymen d'accord avec ma mère ;  Cependant aujourd'hui par une dure loi,  Il le veut empêcher de me donner sa foi,  Et le veut marier à certaine Hippolyte,  Que je ne connais point, non pour son grand mérite,  Ni même à ce qu'on dit pour son esprit charmant,  Mais à cause qu'elle a de l'or abondamment.  Toi qui vois le chagrin qui toujours m'accompagne,  Voilà, voilà, pourquoi j'ai quitté la campagne,  Et je m'en vais savoir, s'il se peut aujourd'hui,  Si je verrai finir ou croître mon ennui. "")",49,45,0.15,Substitution
+60,"('GROS-RENÉ.', ""Oui, mais un bon repas vous serait nécessaire Pour s'aller éclaircir, Monsieur, de cette affaire, Et votre coeur sans doute en deviendrait plus fort Pour pouvoir résister aux attaques du sort. J'en juge par moi-même, et la moindre disgrâce Lorsque je suis à jeun, me saisit, me terrasse ; Mais quand j'ai bien mangé, mon âme est ferme à tout, Et les plus grands revers n'en viendraient pas à bout. Croyez-moi, bourrez-vous et sans réserve aucune, Contre les coups que peut vous porter la fortune, Et, pour fermer chez vous l'entrée à la douleur, De vingt verres de vin entourez votre coeur."")","('BÉATRIX.', ""Je ressens tous vos maux ; mais encore, Madame,  Quelque âpre déplaisir que vous sentiez dans l'âme  Devriez-vous pas songer que depuis hier au soir  Vous avez peu mangé. "")",50,46,0.2,Substitution
+61,"('LÉLIE.', 'Je ne saurais manger.')",,51,-,1.0,Insertion
+62,"('GROS-RENÉ, à part ce demi-vers.', ""Si fait bien moi, je meure. Votre dîner pourtant serait prêt tout à l'heure."")",,52,-,1.0,Insertion
+63,"('LÉLIE.', ""Tais-toi, je te l'ordonne."")","('CÉPHISE.', ""Lorsque le désespoir  Accompagne l'amour, les peines qu'on endure  Nous empêchent de prendre aucune nourriture ;  Mais retourne au logis Béatrix, promptement,  Je sais bien le moyen de trouver mon amant  Sans avoir besoin d'aide, et si tantôt ma mère,  Te demande où je suis, dis lui, qu'ayant affaire  De coiffes, de rubans, j'en achète au Palais. "")",53,47,1.15,Substitution
+64,"('GROS-RENÉ.', 'Ah ! Quel ordre inhumain.')",,54,-,1.0,Insertion
+65,"('LÉLIE.', ""J'ai de l'inquiétude, et non pas de la faim."")",,55,-,1.0,Insertion
+66,"('GROS-RENÉ.', ""Et moi j'ai de la faim, et de l'inquiétude De voir qu'un sot amour fait toute votre étude."")","('BÉATRIX.', 'Vous verrez sur ce point vos désirs satisfaits. ')",56,48,0.97,Substitution
+67,"('LÉLIE.', ""Laisse-moi m'informer de l'objet de mes voeux, Et, sans m'importuner, va manger si tu veux."")",,57,-,1.0,Insertion
+68,"('GROS-RENÉ.', ""Je ne réplique point à ce qu'un maître ordonne."")",,58,-,1.0,Insertion
+69,"('LÉLIE, seul.', ""Non non, à trop de peur mon âme s'abandonne, Le père m'a promis et la fille a fait voir Des preuves d'un amour qui soutient mon espoir."")","('CÉPHISE, seule.', ""Je m'alarme peut-être avec trop d'imprudence ;  L'affaire assurément n'en est pas où je pense :  Alcippe m'a fait voir jusqu'au fond de son coeur,  Et je ne puis penser qu'il ait manqué d'ardeur. "")",59,49,0.81,Substitution
+70,"('SGANARELLE.', ""Nous l'avons, et je puis voir à l'aise la trogne Du malheureux pendard qui cause ma vergogne. Il ne m'est point connu."")","('PAQUETTE.', ""Enfin de ce portrait je me puis voir maîtresse  Et malgré lui j'ai su lui prendre par adresse.  Je ne me souviens point d'avoir vu cet objet.  En examinant le portrait de Céphise."")",60,50,0.92,Substitution
+71,"('LÉLIE, à part.', ""Dieu ! Qu'aperçois-je ici ? Et si c'est mon portrait, que dois-je croire aussi ?"")","('CÉPHISE, à part.', ""Mais qu'aperçois-je, ô Dieux ! Elle tient mon portrait. "")",61,51,0.0,Match
+72,"('SGANARELLE, continue.', ""Ah ! Pauvre Sganarelle, à quelle destinée Ta réputation est-elle condamnée, Faut... Apercevant Lélie qui le regarde, il se retourne d'un autre côté."")","('PAQUETTE, poursuit sans voir Céphise.', 'Dorénavant hélas ! je vais faire abstinence  Plus que je ne voudrais. ')",62,52,1.32,Substitution
+73,"('LÉLIE, à part.', 'Ce gage ne peut sans alarmer ma foi, Être sorti des mains qui le tenaient de moi.')","('CÉPHISE, à part.', ""Je tremble quand j'y pense ;  Et ce portrait ne peut se trouver dans ses mains,  Sans qu'Alcippe ait souscrit à l'hymen que je crains. "")",63,53,0.38,Substitution
+74,"('SGANARELLE.', ""Faut-il que désormais à deux doigts l'on te montre, Qu'on te mette en chansons, et qu'en toute rencontre, On te rejette au nez le scandaleux affront Qu'une femme mal née imprime sur ton front."")","('PAQUETTE, continue.', ""Faut-il que désormais ton mari te méprise ?  Que pour d'autres objets son âme soit éprise ?  Et qu'avec eux peut-être il se moque de toi,  Sans se ressouvenir qu'il t'a donné sa foi.  Encor si... "")",64,54,0.93,Substitution
+75,"('LÉLIE, à part.', 'Me trompai-je ?')","('CÉPHISE, à part.', 'Me trompai-je ? ')",65,55,0.0,Match
+76,"('SGANARELLE.', ""Ah ! Truande, as-tu bien le courage De m'avoir fait cocu dans la fleur de mon âge ? Et femme d'un mari qui peut passer pour beau, Faut-il qu'un marmouset, un maudit étourneau."")","('PAQUETTE, poursuit.', ""Encor si cet infâme  Se contentait d'avoir une impudique flamme ;  Et ne leur fourrait pas le meilleur du logis. "")",66,56,0.99,Substitution
+77,"('LÉLIE, à part, et regardant encore son portrait.', ""Je ne m'abuse point, c'est mon portrait lui-même."")","('CÉPHISE, à part.', ""Je sens que malgré moi je tremble je rougis.  C'est mon portrait sans doute et ma crainte redouble.  Regardant encor une fois par dessus l'épaule de Paquette."")",67,57,1.43,Substitution
+78,"('SGANARELLE lui retourne le dos.', 'Cet homme est curieux.')","(""PAQUETTE, voyant qu'elle continue de regarder le portrait qu'elle tient."", 'Vous êtes curieuse ? ')",68,58,0.65,Substitution
+79,"('LÉLIE, à part.', 'Ma surprise est extrême.')",,69,-,1.0,Insertion
+80,"('SGANARELLE.', 'À qui donc en a-t-il.')",,70,-,1.0,Insertion
+81,"('LÉLIE, à part.', 'Je le veux accoster. Puis-je... ? Hé ! De grâce, un mot. Haut.')",,71,-,1.0,Insertion
+82,"('SGANARELLE le fuit encore.', 'Que me veut-il conter ?')",,72,-,1.0,Insertion
+83,"('LÉLIE.', ""Puis-je obtenir de vous, de savoir l'aventure, Qui fait dedans vos mains trouver cette peinture."")","('CÉPHISE.', 'Ah ! tirez-moi du trouble  Où vient de me jeter... ')",73,59,0.83,Substitution
+84,"(""SGANARELLE, à part, et examinant le portrait qu'il tient de Lélie."", ""D'où lui vient ce désir ? Mais je m'avise ici... Ah ! Ma foi me voilà de son trouble éclairci, Sa surprise à présent n'étonne plus mon âme, C'est mon homme, ou plutôt c'est celui de ma femme."")","('PAQUETTE.', ""Qu'est-ce donc qu'elle veut ? "")",74,60,1.13,Substitution
+85,"('LÉLIE.', ""Retirez-moi de peine et dites d'où vous vient..."")","('CÉPHISE.', ""De grâce, dites-moi, Madame, s'il se peut ?  D'où vous vient ce portrait ? "")",75,61,0.19,Substitution
+86,"('SGANARELLE.', ""Nous savons Dieu merci le souci qui vous tient, Ce portrait qui vous fâche est votre ressemblance, Il était en des mains de votre connaissance, Et ce n'est pas un fait qui soit secret pour nous Que les douces ardeurs de la dame et de vous : Je ne sais pas si j'ai dans sa galanterie L'honneur d'être connu de votre seigneurie, Mais faites-moi celui de cesser désormais Un amour qu'un mari peut trouver fort mauvais, Et songez que les noeuds du sacré mariage..."")","('PAQUETTE, à part.', ""D'où lui vient cette envie.  Mais je n'en doute plus et j'en suis fort ravie,  C'est ma femme ou plutôt celle de mon mari.  Ce portrait vient des mains de votre favori :  Et je ne sais que trop la flamme criminelle,  Dont se sent consumer pour vous cet infidèle,  Mais il verra dans peu tous ses feux traversés :  Je ne sais pas encor si vous me connaissez.  Mais vous m'obligerez de cesser une flamme  Qui ne peut désormais qu'irriter une femme.  Examinant le portrait qu'elle tient et Céphise; Haut."")",76,62,0.0,Match
+87,"('LÉLIE.', 'Quoi, celle dites-vous dont vous tenez ce gage.')","('CÉPHISE.', 'Quoi celui dites-vous de qui vient ce portrait... ')",77,63,0.73,Substitution
+88,"('SGANARELLE.', 'Est ma femme, et je suis son mari.')","('PAQUETTE.', 'De vos lâches amours est le coupable objet,  Et mon mari de plus, et moi je suis sa femme. ')",78,64,0.33,Substitution
+89,"('LÉLIE.', 'Son mari ?')","('CÉPHISE.', 'Ce discours imprévu met le trouble en mon âme.  Sa femme... ')",79,65,1.29,Substitution
+90,"('SGANARELLE.', ""Oui, son mari vous dis-je, et mari très marri, Vous en savez la cause et je m'en vais l'apprendre Sur l'heure à ses parents."")","('PAQUETTE.', 'Oui sa femme, et sa femme en courroux,  Vous pouvez aller voir mon déplaisir jaloux,  Vous en savez la cause et je vais en instruire  De ce pas ses parents. ')",80,66,0.0,Match
+91,"('LÉLIE, seul.', ""Ah ! Que viens-je d'entendre. L'on me l'avait bien dit, et que c'était de tous L'homme le plus mal fait qu'elle avait pour époux. Ah ! Quand mille serments de ta bouche infidèle, Ne m'auraient pas promis une flamme éternelle, Le seul mépris d'un choix si bas et si honteux Devait bien soutenir l'intérêt de mes feux Ingrate, et quelque bien... Mais ce sensible outrage Se mêlant aux travaux d'un assez long voyage, Me donne tout à coup un choc si violent, Que mon coeur devient faible, et mon corps chancelant."")","('CÉPHISE, seule.', ""Que vient-elle de dire,  Je n'aurais jamais cru qu'il dût manquer d'amour,  Mais l'on m'avait bien dit las devant mon retour  Que la personne à qui le destinait son père,  Malgré tous ses attraits paraissait fort sévère.  Ah ! traître, fallait-il, après tant de serments,  Après m'avoir fait voir tous les emportements  D'un violent amour, te montrer infidèle  Et trahir un objet qui... mais Dieux, je chancelle.  L'amour, le désespoir, la fatigue, l'ennui,  Et le peu d'aliment que j'ai pris aujourd'hui  Font céder tout_à_coup mon coeur à la faiblesse. "")",81,67,0.0,Match
+92,"('LA FEMME de SGANARELLE, se tournant vers Lélie.', 'Malgré moi mon perfide... Hélas ! Quel mal vous presse ? Je vous vois prêt Monsieur à tomber en faiblesse.')","('SPADARILLE.', ""Mon infidèle enfin a surpris par adresse...  Mais allons secourir... Madame qu'avez-vous.  Courant à Céphise qui s'évanouit. La soutenant."")",82,68,0.81,Substitution
+93,"('LÉLIE.', ""C'est un mal qui m'a pris assez subitement."")","('CÉPHISE.', 'Ce mal me vient de prendre. ')",83,69,0.0,Match
+94,"('LA FEMME de SGANARELLE.', ""Je crains ici, pour vous l'évanouissement : Entrez dans cette salle en attendant qu'il passe."")","('SPADARILLE.', 'Entrez, entrez chez nous,  Peut-être y pourrez-vous trouver quelque allégeance. ')",84,70,1.05,Substitution
+95,"('LÉLIE.', ""Pour un moment ou deux, j'accepte cette grâce."")","('CÉPHISE.', ""Mon mal avait besoin d'une telle assistance,  Vous m'obligez beaucoup. "")",85,71,1.13,Substitution
+96,"('LE PARENT.', ""D'un mari sur ce point j'approuve le souci ; Mais c'est prendre la chèvre un peu bien vite aussi, Et tout ce que de vous je viens d'ouïr contre elle, Ne conclut point, parent, qu'elle soit criminelle ; C'est un point délicat et de pareils forfaits, Sans les bien avérer ne s'imputent jamais."")","('LUCRESSE.', ""Ce n'est pas sans raison,  Que là dessus votre âme a conçu du soupçon ;  Mais quelque fort qu'il soit, jamais la jalousie,  Ne vous devait ainsi troubler la fantaisie.  Avant que d'imputer un semblable forfait ;  Vous devriez les... "")",86,72,0.0,Match
+97,,"('PAQUETTE.', ""J'entends les prendre sur le fait. "")",-,73,1.0,Deletion
+98,"('SGANARELLE.', ""C'est-à-dire qu'il faut toucher au doigt la chose."")","('LUCRESSE.', ""Ce n'est point tout cela ; mais sachez en amie  Qu'un homme sur ce point est exempt d'infamie,  Et qu'une femme enfin pût-elle tout savoir,  Doit se boucher les yeux et ne jamais rien voir. "")",87,74,1.87,Substitution
+99,,"('PAQUETTE.', ""Moi je ne prétends pas être jamais de celles  Qui souffrent lâchement des maris infidèles,  Et puisqu'aux yeux de tous il m'a donné sa foi,  Il me la doit garder aussi bien comme moi. "")",-,75,1.0,Deletion
+100,"('LE PARENT.', ""Le trop de promptitude à l'erreur nous expose. Qui sait comme en ses mains ce portrait est venu, Et si l'homme après tout lui peut être connu. Informez-vous en donc, et si c'est ce qu'on pense, Nous serons les premiers à punir son offense."")","('LUCRESSE.', ""Bien que par ce discours vous paraissez peu sage,  Je prétends empêcher votre mauvais ménage,  Tâchez donc à savoir au long la vérité,  Et vous verrez après qu'avec dextérité,  Je saurai lui montrer que sans crime son âme  Pour d'autres que pour vous ne peut nourrir de flamme,  Et qu'il doit désormais vous aimer constamment. "")",88,76,0.36,Substitution
+101,"('SGANARELLE, seul.', ""On ne peut pas mieux dire, en effet, il est bon D'aller tout doucement. Peut-être sans raison, Me suis-je en tête mis ces visions cornues, Et les sueurs au front m'en sont trop tôt venues. Par ce portrait enfin dont je suis alarmé, Mon déshonneur n'est pas tout à fait confirmé, Tâchons donc par nos soins..."")","('PAQUETTE, seule.', ""Voilà, voilà parler avecque jugement,  Et si je pouvais voir l'effet de la promesse,  On verrait pour jamais sur mon front l'allégresse.  Tâchons donc pour cela de savoir... Justes Dieux !  Quoi dans ma chambre même ils ont osé tous deux...  Mais je n'y puis songer et la douleur m'accable.  Paquette voit Céphise qui sort de chez elle et son mari qui la reconduit. "")",89,77,0.01,Substitution
+102,"('SGANARELLE, poursuit.', ""Ah ! Que vois-je ? Je meure, Il n'est plus question de portrait à cette heure, Voici ma foi la chose en propre original."")","('CÉPHISE.', 'Je dois être à jamais à vos soins redevable,  Et je me souviendrai de vos civilités. ')",90,78,1.55,Substitution
+103,"('LA FEMME de SGANARELLE, à Lélie.', ""C'est par trop vous hâter Monsieur, et votre mal Si vous sortez sitôt pourra bien vous reprendre."")","('SPADARILLE.', 'Ne sortez pas sitôt Madame, ou permettez  Que je sorte avec vous, et que je vous remène. ')",91,79,0.32,Substitution
+104,"('LÉLIE.', ""Non non, je vous rends grâce, autant qu'on puisse rendre, De l'obligeant secours que vous m'avez prêté."")","('CÉPHISE.', 'Je veux vous dispenser de prendre cette peine. ')",92,80,0.86,Substitution
+105,"('SGANARELLE, à part.', 'La masque encore après lui fait civilité.')",,93,-,1.0,Insertion
+106,"('SGANARELLE, à part.', ""Il m'aperçoit, voyons ce qu'il me pourra dire."")","('PAQUETTE.', ""Elle me reconnaît, voyons, voyons un peu  Ce qu'elle me dira pour déguiser son feu. "")",94,81,0.67,Substitution
+107,"('LÉLIE, à part.', ""Ah ! Mon âme s'émeut, et cet objet m'inspire... Mais je dois condamner cet injuste transport, Et n'imputer mes maux qu'aux rigueurs de mon sort. Envions seulement le bonheur de sa flamme. Ô ! Trop heureux d'avoir une si belle femme. Passant auprès de lui et le regardant."")","('CÉPHISE, à part.', ""Mais ce fâcheux objet m'inquiète et me trouble.  Fuyons, fuyons, de peur que mon mal ne redouble.  Envions-lui pourtant un bonheur si parfait.  Ô ! Heureuse d'avoir un mari si bien fait.  En passant par devant elle."")",95,82,0.0,Match
+108,"('SGANARELLE, sans voir Célie.', ""Ce n'est point s'expliquer en termes ambigus. Cet étrange propos me rend aussi confus Que s'il m'était venu des cornes à la tête. Allez, ce procédé n'est point du tout honnête. Il se tourne du côté que Lélie s'en vient d'en aller."")","('PAQUETTE.', ""Il n'est pas de besoin de lui donner la gêne  Pour confesser son crime, elle le dit sans peine.  Allez, infâme, allez, c'est fort mal fait à vous  Que de me débaucher lâchement mon époux.  Se tournant du côté que Céphise s'est en allée."")",96,83,0.49,Substitution
+109,"('CÉLIE, à part.', ""Quoi, Lélie a paru tout à l'heure à mes yeux, Qui pourrait me cacher son retour en ces lieux ?"")","(""ALCIPPE, du bout du Théâtre voit s'en aller Céphise."", ""Oui, je la viens de voir, ma surprise est extrême,  Je n'en puis plus douter, c'est Céphise elle-même,  De ce retour secret je suis peu satisfait. "")",97,84,1.12,Substitution
+110,"('SGANARELLE, poursuit.', ""Ô ! Trop heureux, d'avoir une si belle femme, Malheureux bien plutôt de l'avoir cette infâme, Dont le coupable feu trop bien vérifié, Sans respect ni demi nous a cocufié. Mais je le laisse aller après un tel indice Et demeure les bras croisés comme un jocrisse. Ah ! Je devais du moins lui jeter son chapeau, Lui ruer quelque pierre, ou crotter son manteau, Et sur lui hautement pour contenter ma rage Faire au larron d'honneur crier le voisinage. Célie approche peu à peu de lui, attend que son transport soit fini pour lui parler. Célie approche peu à peu de lui, et attend que son transport soit fini pour lui parler."")","('PAQUETTE.', ""Ô ! heureuse d'avoir un mari si bien fait.  Ah ! discours trop piquants, paroles indiscrètes,  Je l'eusse fait fourrer dans les Magdelonnettes  Si j'eusse sur le champ pu trouver des témoins,  Mais puisque j'en manquais, je devais tout du moins.  Arracher ses cheveux et pour saouler ma rage  De la bonne façon souffleter son visage.  Malheureuse, pourquoi ne l'as-tu donc pas fait,  Puisqu'elle a devant toi publié son forfait ?  Alcippe s'approche peu à peu d'elle et attend que son transport soit fini pour lui parler. "")",98,85,0.0,Match
+111,"('CÉLIE.', ""Celui qui maintenant devers vous est venu, Et qui vous a parlé, d'où vous est-il connu ?"")","('ALCIPPE.', ""Celle qui maintenant devers vous est venue,  Dites-moi, s'il vous plaît, vous est-elle connue ? "")",99,86,0.0,Match
+112,"('SGANARELLE.', ""Hélas ! Ce n'est pas moi qui le connaît, Madame, C'est ma femme."")","('PAQUETTE.', ""Hélas ! ce n'est pas moi qui la connais Monsieur,  C'est mon mari. "")",100,87,0.0,Match
+113,"('CÉLIE.', 'Quel trouble agite ainsi votre âme ?')","('ALCIPPE.', 'Quel trouble agite votre coeur ? ')",101,88,0.0,Match
+114,,"('PAQUETTE.', ""Au mal que je ressens, aucun n'est comparable.  Vous voyez devant vous un objet misérable ;  Celle dont vous parlez a commis un forfait,  Mais si noir... "")",-,89,1.0,Deletion
+115,,"('ALCIPPE.', ""Achevez, dites, qu'a-t-elle fait ? "")",-,90,1.0,Deletion
+116,,"('PAQUETTE.', 'Elle a... ')",-,91,1.0,Deletion
+117,,"('ALCIPPE.', 'Quoi donc elle a. ')",-,92,1.0,Deletion
+118,"('SGANARELLE.', ""Ne me condamnez point d'un deuil hors de saison, Et laissez-moi pousser des soupirs à foison."")","('PAQUETTE.', 'Souffrez que je soupire. ')",102,93,0.16,Substitution
+119,"('CÉLIE.', ""D'où vous peuvent venir ces douleurs non communes ?"")","('ALCIPPE.', 'Et de grâce achevez ? ')",103,94,1.42,Substitution
+120,"('SGANARELLE.', ""Si je suis affligé, ce n'est pas pour des prunes Et je le donnerais à bien d'autres qu'à moi De se voir sans chagrin au point où je me vois. Des maris malheureux, vous voyez le modèle, On dérobe l'honneur au pauvre Sganarelle ; Mais c'est peu que l'honneur dans mon affliction, L'on me dérobe encore la réputation."")","('PAQUETTE.', ""Je n'ose vous le dire. "")",104,95,1.75,Substitution
+121,"('CÉLIE.', 'Comment ?')","('ALCIPPE.', 'Pourquoi tant façonner ? ')",105,96,0.95,Substitution
+122,"('SGANARELLE.', ""Ce damoiseau, parlant par révérence, Me fait cocu Madame, avec toute licence, Et j'ai su par mes yeux avérer aujourd'hui Le commerce secret de ma femme et de lui."")","('PAQUETTE.', ""Apprenez donc Monsieur,  Qu'elle a pour mon époux une impudique ardeur. "")",106,97,0.61,Substitution
+123,,"('ALCIPPE.', ""Qu'ai-je entendu ! "")",-,98,1.0,Deletion
+124,,"('PAQUETTE.', ""De plus... (quand j'y songe je meure)  Ils viennent de chez nous de sortir tout à l'heure,  Et j'ai peur... "")",-,99,1.0,Deletion
+125,"('CÉLIE.', 'Celui qui maintenant...')","('ALCIPPE.', 'De quoi donc ? ')",107,100,0.95,Substitution
+126,"('SGANARELLE.', ""Oui, oui, me déshonore, Il adore ma femme, et ma femme l'adore."")",,108,-,1.0,Insertion
+127,"('CÉLIE.', ""Ah ! J'avais bien jugé que ce secret retour Ne pouvait me couvrir que quelque lâche tour, Et j'ai tremblé d'abord en le voyant paraître, Par un pressentiment de ce qui devait être."")","('PAQUETTE.', ""Puisque vous connaissez  Leur mutuelle ardeur, vous m'entendez assez. "")",109,101,1.0,Substitution
+128,"('SGANARELLE.', ""Vous prenez ma défense avec trop de bonté, Tout le monde n'a pas la même charité, Et plusieurs qui tantôt ont appris mon martyre, Bien loin d'y prendre part, n'en ont rien fait que rire."")",,110,-,1.0,Insertion
+129,"('CÉLIE.', ""Est-il rien de plus noir que ta lâche action, Et peut-on lui trouver une punition ? Dois-tu ne te pas croire indigne de la vie, Après t'être souillé de cette perfidie ? Ô ciel ! Est-il possible ?"")","('ALCIPPE.', ""Perfide, déloyale, âme double et traîtresse,  Aurait-on pu prévoir une telle bassesse,  De cette lâcheté je demeure interdit,  Mais dois-je croire aussi ce que vous m'avez dit ? "")",111,102,0.27,Substitution
+130,"('SGANARELLE.', 'Il est trop vrai pour moi.')","('PAQUETTE.', 'Ce que je vous ai dit est la vérité même,  Je les viens maintenant de surprendre moi-même. ')",112,103,1.04,Substitution
+131,"('CÉLIE.', 'Ah ! Traître, scélérat, âme double et sans foi.')","('ALCIPPE.', ""Tu t'es donc pu noircir de cette lâcheté  Après avoir cent fois vu ma fidélité.  Ah ! pour te bien punir de ton ingratitude,  Il n'est point ici bas de supplice plus rude. "")",113,104,0.69,Substitution
+132,"('SGANARELLE.', 'La bonne âme !')",,114,-,1.0,Insertion
+133,"('CÉLIE.', ""Non, non, l'Enfer n'a point de gêne Qui ne soit pour ton crime une trop douce peine."")","('PAQUETTE.', ""Qu'il est bon.  Je vous rends mille grâces Monsieur,  De prendre ma défense avec tant de chaleur,  Croyez-moi tout chacun n'en ferait pas de même,  Et plusieurs qui m'ont vu dans ma douleur extrême  Bien loin de prendre part à mes afflictions,  M'ont voulu faire croire à force de raisons,  Que mon coeur s'affligeait avec peu de justice,  Et que de mon mari d'autres feraient l'office,  Et moi je ne veux pas faire une lâcheté,  Et je l'aime malgré son infidélité.  Bas. Haut."")",115,105,0.89,Substitution
+134,"('SGANARELLE.', 'Que voilà bien parler !')",,116,-,1.0,Insertion
+135,"('CÉLIE.', 'Avoir ainsi traité Et la même innocence et la même bonté.')",,117,-,1.0,Insertion
+136,"('SGANARELLE.', 'Hay. Il soupire haut')",,118,-,1.0,Insertion
+137,"('CÉLIE.', ""Un coeur qui jamais n'a fait la moindre chose, A mérité l'affront où ton mépris l'expose."")","(""ALCIPPE, sans l'écouter."", ""Oui mon coeur y consent, n'espère pas infâme,  Qu'aucune ardeur pour toi jamais rentre en mon âme,  Que j'adore jamais tes coupables appas,  Mais je dois m'en venger et j'y cours de ce pas. "")",119,106,0.38,Substitution
+138,"('SGANARELLE.', 'Il est vrai.')",,120,-,1.0,Insertion
+139,"('CÉLIE.', ""Qui bien loin... Mais c'est trop, et ce coeur Ne saurait y songer sans mourir de douleur."")",,121,-,1.0,Insertion
+140,"('SGANARELLE.', ""Ne vous fâchez pas tant, ma très chère Madame, Mon mal vous touche trop et vous me percez l'âme."")","('PAQUETTE, seule.', ""L'on ne le peut nier, cet homme a l'âme bonne,  Et plus je songe à lui, plus sa bonté m'étonne.  Quoi, prendre ainsi le soin de courir me venger,  Voilà ce qu'aujourd'hui l'on appelle obliger,  Tout à fait galamment, de la belle manière ;  Mais quoi de mon côté, serai-je sans rien faire ?  Mon coeur à se venger ne sera-t-il pas prompt ?  Pourrai-je bien souffrir un si sensible affront ?  Et n'aurai-je recours qu'aux soupirs et qu'aux larmes  Qui de mon sexe sont les plus fréquentes armes ?  Non, non, dorénavant il ne sera pas dit,  Que Paquette voie tout sans montrer de dépit,  Et que de son mari l'on partage la couche,  Sans que pour s'en venger elle ose ouvrir la bouche ;  Courrons donc la chercher cette lâche beauté  Qui pousse notre époux à l'infidélité ;  Mais je devrais avant que de pousser l'affaire,  Songer sur qui je veux décharger ma colère.  Cette femme sans doute est plus jeune que moi,  Et par cette raison plus robuste je crois,  Et si je l'attaquais, quelque ardeur qui m'emporte  Je pourrais sûrement n'être pas la plus forte ;  Puis donc qu'il est ainsi je ne m'y fourre pas,  J'aime par trop mon teint, mes jambes, et mes bras,  L'on me reprocherait outre le cocuage,  D'avoir été battue, et ce sensible outrage  Joint avec le premier me ferait enrager :  Aille donc qui voudra maintenant me venger,  Pour moi je n'y vais pas et crois sagement faire  Quand de peur d'accident je cache ma colère.  Mais voyons si j'ai lieu d'être fort en courroux  Et de faire éclater ce déplaisir jaloux.  Non puisque par bonheur nous n'avons aucun blâme,  Quand nos maris sans nous ont un commerce infâme ;  Et que quand notre coeur brûle d'indignes feux  Tout le blâme aussitôt rejaillit dessus eux.  Qu'ils goûtent donc le fruit du feu qui les possède,  Je n'en serai jamais plus maigre ni plus laide,  Plus maigre ni plus laide [sic]. Ah! je me trompe enfin,  Et je n'ai pas besoin d'un jugement bien fin  Pour savoir que le jeûne apporte du dommage  À l'esprit, et surtout, qu'il change le visage.  C'est pourquoi maintenant je m'aperçois si bien,  Que mon mari ne peut sans y mêler du mien  Se divertir ailleurs, puisque outre l'abstinence  Que je fais tous les jours, le traître a l'insolence  D'emporter du logis tout ce qu'il peut trouver  Mais ne pourrai-je point à force de rêver...  Oui, je tiens un remède assez facile à faire  Et qui n'a rien du tout qui ne me doive plaire,  Puisqu'il me donne lieu de finir mon ennui  Et que par lui je puis recouvrer aujourd'hui  Tous les plaisirs perdus et tout le bien encore.  Je n'ai qu'à consentir que tout chacun m'adore,  Qu'à souffrir qu'on me die en secret les douceurs,  Qu'à souffrir des hélas, qu'à souffrir des je meurs,  Et je serai vêtue après comme une Reine,  De me bien divertir chacun prendra la peine,  Je ne manquerai point à trouver tous les jours  Un carrosse à ma porte afin d'aller au Cours,  Et chassant loin de moi toute crainte funeste,  J'aurai bien du plaisir et de l'argent de reste.  Elle revient ayant fait trois ou quatre pas."")",122,107,0.76,Substitution
+141,"('CÉLIE.', ""Mais ne t'abuse pas jusqu'à te figurer Qu'à des plaintes sans fruit j'en veuille demeurer, Mon coeur pour se venger sait ce qu'il te faut faire Et j'y cours de ce pas, rien ne m'en peut distraire."")","('ALCIPPE.', ""Oui je veux obéir à vos commandements,  Je veux dorénavant suivre vos sentiments  Je ne résiste plus et je ferai mon père  Tout ce qu'il vous plaira de m'ordonner de faire,  Et quelque objet pour moi dont vous ayez fait choix,  Mon coeur dès à présent est soumis à ses lois,  Et fût-il et moins riche et moins beau qu'Hippolyte  Votre choix lui suffit pour prouver son mérite,  Et si vous le voulez je suis prêt dès demain  De lui donner mon coeur ensemble avec ma main. "")",123,108,0.49,Substitution
+142,,"('GÉRONTE.', ""C'est ainsi qu'un enfant doit répondre à son père  Il doit n'avoir de but que celui de lui plaire,  Afin que dans ce monde il fasse un long séjour. "")",-,109,1.0,Deletion
+143,"('SGANARELLE, seul.', ""Que le ciel la préserve à jamais de danger. Voyez quelle bonté de vouloir me venger : En effet ; son courroux qu'excite ma disgrâce M'enseigne hautement ce qu'il faut que je fasse, Et l'on ne doit jamais souffrir sans dire mot De semblables affronts à moins qu'être un vrai sot. Courons donc le chercher ce pendard qui m'affronte Montrons notre courage à venger notre honte. Vous apprendrez, maroufle ; à rire à nos dépens, Et sans aucun respect faire cocus les gens. Doucement, s'il vous plaît, cet homme a bien la mine D'avoir le sang bouillant et l'âme un peu mutine, Il pourrait bien mettant affront dessus affront Charger de bois mon dos, comme il a fait mon front. Je hais de tout mon coeur les esprits colériques, Et porte grand amour aux hommes pacifiques : Je ne suis point battant de peur d'être battu Et l'humeur débonnaire est ma grande vertu. Mais mon honneur me dit que d'une telle offense Il faut absolument que je prenne vengeance. Ma foi laissons-le dire autant qu'il lui plaira, Au diantre qui pourtant rien du tout en fera : Quand j'aurai fait le brave, et qu'un fer pour ma peine M'aura d'un vilain coup transpercé la bedaine, Que par la ville ira le bruit de mon trépas, Dites-moi mon honneur, en serez-vous plus gras ? La bière est un séjour par trop mélancolique Et trop malsain pour ceux qui craignent la colique, Et quant à moi je trouve, ayant tout compassé, Qu'il vaut mieux être encore cocu que trépassé : Quel mal cela fait-il ? La jambe en devient-elle Plus tortue après tout, et la taille moins belle ? Peste soit qui premier trouva l'invention De s'affliger l'esprit de cette vision, Et d'attacher l'honneur de l'homme le plus sage Aux choses que peut faire une femme volage ; Puisqu'on tient à bon droit tout crime personnel, Que fait là notre honneur, pour être criminel ? Des actions d'autrui l'on nous donne le blâme, Si nos femmes sans nous ont un commerce infâme, Il faut que tout le mal tombe sur notre dos, Elles font la sottise, et nous sommes les sots, C'est un vilain abus et les gens de Police, Nous devraient bien régler une telle injustice. N'avons-nous pas assez des autres accidents, Qui nous viennent happer en dépit de nos dents, Les querelles, procès, faim, soif et maladie, Troublent-ils pas assez le repos de la vie Sans s'aller de surcroît aviser sottement De se faire un chagrin qui n'a nul fondement ? Moquons-nous de cela, méprisons les alarmes. Et mettons sous nos pieds les soupirs et les larmes, Si ma femme a failli, qu'elle pleure bien fort. Mais pourquoi moi pleurer puisque je n'ai point tort ? En tout cas ce qui peut m'ôter ma fâcherie, C'est que je ne suis pas seul de ma confrérie, Voir cajoler sa femme et n'en témoigner rien Se pratique aujourd'hui par force gens de bien : N'allons donc point chercher à faire une querelle Pour un affront qui n'est que pure bagatelle. L'on m'appellera sot de ne me venger pas ; Mais je le serais fort de courir au trépas. Je me sens là pourtant remuer une bile Qui veut me conseiller quelque action virile : Oui le courroux me prend, c'est trop être poltron : Je veux résolument me venger du larron : Déjà pour commencer, dans l'ardeur qui m'enflamme, Je vais dire partout qu'il couche avec ma femme. Il se retourne ayant fait trois ou quatre pas. Mettant la main sur son estomac. Avouez moi maintenant la vérité, est-il pas vrai, Monsieur, que vous avez trouvé ces vers tout à fait beaux, que vous ne vous êtes pu empêcher de les relire encore une fois, et que vous demeurez d'accord que Paris a eu raison de nommer cette scène, la belle scène."")","('ALCIPPE.', ""Après mille combats j'ai vaincu mon amour,  Et le vaincrais encore si c'était à refaire,  Afin de vous montrer combien je vous révère.  Mais plutôt pour punir le criminel objet  Qui se vient de souiller d'un infâme forfait.  À part."")",124,110,0.09,Substitution
+144,"('CÉLIE.', 'Oui, je veux bien subir une si juste loi, Mon père, disposez de mes voeux et de moi, Faites quand vous voudrez signer cet hyménée, À suivre mon devoir je suis déterminée, Je prétends gourmander mes propres sentiments Et me soumettre en tout à vos commandements.')","('GÉRONTE.', ""On ne se repend point de rendre obéissance  À ceux à qui nous doit soumettre la naissance,  Puisque le temps enfin souvent nous fait bien voir  Qu'ils n'usent dessus nous d'un absolu pouvoir  Que pour notre intérêt et notre propre gloire. "")",125,111,0.61,Substitution
+145,,"('ALCIPPE.', ""Oui, mais l'on est contraint avant que de le croire  De soupirer longtemps. "")",-,112,1.0,Deletion
+146,"('GORGIBUS.', ""Ah ! Voilà qui me plaît de parler de la sorte, Parbleu, si grande joie à l'heure me transporte, Que mes jambes sur l'heure en cabrioleraient, Si nous n'étions point vus de gens qui s'en riraient. Approche-toi de moi, viens çà que je t'embrasse : Une belle action n'a pas mauvaise grâce ; Un père, quand il veut, peut sa fille baiser Sans que l'on ait sujet de s'en scandaliser. Va, le contentement de te voir si bien née Me fera rajeunir de dix fois une année."")","('GÉRONTE.', ""Tu soupireras peu,  Puisque pour te payer d'avoir éteint ton feu,  Et te faire passer ta vie en galant homme,  Trente mille Ducats font une belle somme ;  Mais je vais maintenant avertir de ceci  La mère d'Hippolyte, et je retourne ici. "")",126,113,0.41,Substitution
+147,"('LA SUIVANTE.', ""Ce changement m'étonne."")","('ROGUESPINE.', ""Monsieur, quoi qu'Hippolyte en effet soit fort belle,  J'aurais gagé cent fois que vous seriez fidèle :  C'est pourquoi vous voyez que je ne cèle point  Qu'un pareil changement m'étonne au dernier point. "")",127,114,1.41,Substitution
+148,"('CÉLIE.', ""Et lorsque tu sauras Par quel motif j'agis tu m'en estimeras."")","('ALCIPPE.', ""Quand tu sauras pourquoi j'ai su vaincre ma flamme,  Tu cesseras bientôt de me couvrir de blâme. "")",128,115,0.21,Substitution
+149,"('LA SUIVANTE.', 'Cela pourrait bien être.')","('ROGUESPINE.', ""Et de grâce, Monsieur, dépêchez promptement  Car je vous crois souillé d'un vilain changement. "")",129,116,1.67,Substitution
+150,"('CÉLIE.', ""Apprends donc que Lélie, A pu blesser mon coeur par une perfidie, Qu'il était en ces lieux sans..."")","('ALCIPPE.', ""Apprends donc qu'en ces lieux l'ingrate, l'infidèle... "")",130,117,0.76,Substitution
+151,,"('ALCIPPE.', ""Où vous fourrerez-vous ? J'aperçois cette belle !  De colère déjà son visage rougit  Et l'on voit bien qu'elle a le coeur gros de dépit. "")",-,118,1.0,Deletion
+152,"('LA SUIVANTE.', 'Mais il vient à nous.')","('ALCIPPE.', ""Que ses attraits sont doux, quoi qu'elle soit coupable ;  Pour me faire souffrir elle est toujours aimable. "")",131,119,1.82,Substitution
+153,"('LÉLIE.', ""Avant que pour jamais je m'éloigne de vous, Je veux vous reprocher au moins en cette place..."")","('CÉPHISE.', ""Puisque j'ai résolu de ne vous voir jamais,  Avant que d'en venir Scélérat aux effets,  Il faut du moins qu'ici par de justes reproches..."")",132,120,0.26,Substitution
+154,,"('ROGUESPINE, en tirant son Maître.', ""Hé ! Monsieur, s'il vous plaît, évitez ces approches,  Vous savez ce que peut une femme en fureur. "")",-,121,1.0,Deletion
+155,"('CÉLIE.', 'Quoi me parler encore, avez-vous cette audace ?')","('ALCIPPE.', ""De grâce laisse-moi lui montrer que l'ardeur  Qui brûle dans son âme... "")",133,122,1.1,Substitution
+156,"('LÉLIE.', ""Il est vrai qu'elle est grande et votre choix est tel Qu'à vous rien reprocher je serais criminel, Vivez, vivez contente et bravez ma mémoire Avec le digne époux qui vous comble de gloire."")","('CÉPHISE.', ""Hé bien donc, parle traître !  Et condamne l'objet qui sut la faire naître ;  Mais j'ai tort, et ton âme a fait un si beau choix  Que l'on me blâmerait peut-être si j'osais  Te reprocher... Mais non, vis malgré ton offense  Avec le digne objet qui fait voir ta constance. "")",134,123,0.54,Substitution
+157,"('CÉLIE.', ""Oui traître j'y veux vivre, et mon plus grand désir Ce serait que ton coeur en eût du déplaisir."")","('ALCIPPE.', 'Je vivrai seulement pour vous faire enrager. ')",135,124,0.66,Substitution
+158,"('LÉLIE.', 'Qui rend donc contre moi ce courroux légitime ?')","('CÉPHISE.', 'Mais pourrait-on savoir qui te peut obliger  À montrer ce courroux. ')",136,125,0.25,Substitution
+159,"('CÉLIE.', 'Quoi tu fais le surpris, et demandes ton crime ?')","('ALCIPPE.', 'Vous avez bonne grâce  À faire la surprise. ')",137,126,1.11,Substitution
+160,"('SGANARELLE entre armé.', ""Guerre, guerre mortelle à ce larron d'honneur Qui sans miséricorde a souillé notre honneur !"")","('PAQUETTE.', ""Oui dans peu son audace,  Saura bien recevoir un juste châtiment,  Mon coeur a tout_à_coup changé de sentiment,  Et je veux quoi qu'enfin je ne sois qu'une femme,  Sans tarder plus longtemps, me venger de l'infâme  Qui m'ose lâchement débaucher mon époux. "")",138,127,0.6,Substitution
+161,"('CÉLIE, à Lélie.', 'Tourne ? Tourne les yeux ? Sans me faire répondre.')","('ALCIPPE, lui montrant Paquette.', ""Ah ! Sans que je m'emporte et montre mon courroux,  Tournez ici les yeux et vous pourrez apprendre... "")",139,128,0.91,Substitution
+162,"('LÉLIE.', 'Ah ! Je vois...')","('CÉPHISE.', 'Je ne vois... ')",140,129,0.34,Substitution
+163,"('CÉLIE.', 'Cet objet suffit pour te confondre.')","('ALCIPPE.', 'Cet objet a droit de vous surprendre. ')",141,130,1.39,Substitution
+164,"('LÉLIE.', 'Mais pour vous obliger bien plutôt à rougir.')","('CÉPHISE.', ""Mais il doit t'obliger à rougir bien plutôt. "")",142,131,0.0,Match
+165,"('SGANARELLE.', ""Ma colère à présent est en état d'agir, Dessus ses grands chevaux est monté mon courage Et si je le rencontre on verra du carnage : Oui j'ai juré sa mort, rien ne peut m'empêcher Où je le trouverai, je le veux dépêcher, Au beau milieu du coeur il faut que je lui donne..."")","('PAQUETTE, à part.', ""Je sens, je sens mon coeur animé comme il faut,  Et prêt à seconder mon bras dans cette affaire.  Sus donc, satisfaisons notre juste colère,  Et pour en assouvir la pressante fureur,  Portons lui ce poignard jusqu'au milieu du coeur. "")",143,132,0.22,Substitution
+166,"('LÉLIE.', 'À qui donc en veut-on ?')",,144,-,1.0,Insertion
+167,"('SGANARELLE.', ""Je n'en veux à personne."")",,145,-,1.0,Insertion
+168,"('LÉLIE.', 'Pourquoi ces armes-là ?')",,146,-,1.0,Insertion
+169,"('SGANARELLE.', ""C'est un habillement Que j'ai pris pour la pluie.  Ah ! Quel contentement J'aurais à le tuer, prenons-en le courage. À part."")",,147,-,1.0,Insertion
+170,"('LÉLIE.', 'Hay ?')","('CÉPHISE.', ""Qu'entends-je ? "")",148,133,0.72,Substitution
+171,"(""SGANARELLE, se donnant des coups de poings sur l'estomac, et des soufflets pour s'exciter."", ""Je ne parle pas. Ah ! Poltron dont j'enrage, Lâche, vrai coeur de poule. À part."")","('PAQUETTE.', ""Voulez-vous que j'aille voir Madame ;  Ce bruit ainsi qu'à vous me vient d'alarmer l'âme. "")",149,134,1.55,Substitution
+172,"('CÉLIE.', ""Il t'en doit dire assez Cet objet, dont tes yeux nous paraissent blessés."")","('ALCIPPE.', 'Cet Objet vous émeut sans doute et vous fait voir... ')",150,135,1.27,Substitution
+173,"('LÉLIE.', ""Oui, je connais par là que vous êtes coupable De l'infidélité la plus inexcusable, Qui jamais d'un amant puisse outrager la foi."")","('CÉPHISE.', ""Que tu t'es pu noircir du crime le plus noir... "")",151,136,1.13,Substitution
+174,"('SGANARELLE, à part.', ""Que n'ai-je un peu de coeur !"")",,152,-,1.0,Insertion
+175,"('CÉLIE.', ""Ah ! Cesse devant moi Traître, de ce discours l'insolence cruelle."")","('ALCIPPE.', ""Finissez un discours si rempli d'insolence. "")",153,137,0.03,Substitution
+176,"('SGANARELLE.', ""Sganarelle, tu vois qu'elle prend ta querelle, Courage mon enfant, sois un peu vigoureux, Là, hardi, tâche à faire un effort généreux, En le tuant, tandis qu'il tourne le derrière."")","('PAQUETTE, à part.', ""Puisque cet homme encor veut prendre ta défense,  Prends courage mon coeur, sois un peu généreux,  Et lave dans son sang ses impudiques feux :  Peut-être qu'il pourra seconder notre fuite. "")",154,138,0.3,Substitution
+177,"(""LÉLIE, faisant deux ou trois pas sans dessein, fait retourner Sganarelle qui s'approchait pour le tuer."", ""Puisqu'un pareil discours émeut votre colère, Je dois de votre coeur me montrer satisfait. Et l'applaudir ici du beau choix qu'il a fait."")","(""CÉPHISE, faisant deux ou trois pas sans dessein, fait retourner Paquette qui s'approche pour la tuer. "", ""Puisque avecque raison un tel discours t'irrite,  Bien loin de t'accuser de ton lâche forfait,  Je dois louer un choix si rare et si parfait. "")",155,139,0.1,Substitution
+178,"('CÉLIE.', ""Oui, oui, mon choix est tel qu'on n'y peut rien reprendre."")","('ALCIPPE.', 'On ne peut dans mon choix trouver rien à redire. ')",156,140,0.81,Substitution
+179,"('LÉLIE.', 'Allez, vous faites bien de le vouloir défendre.')","('CÉPHISE.', ""Pourquoi le défends-tu puisque enfin je l'admire. "")",157,141,0.86,Substitution
+180,,"('ALCIPPE.', 'Ce discours me déplaît, ne raillons point ici. ')",-,142,1.0,Deletion
+181,"('SGANARELLE.', ""Sans doute elle fait bien de défendre mes droits ! Cette action Monsieur, n'est point selon les lois, J'ai raison de m'en plaindre, et si je n'étais sage, On verrait arriver un étrange carnage."")","('PAQUETTE, à Céphise.', ""Il agit prudemment de me défendre ainsi,  Et vous n'ignorez pas le tort que vous me faites. "")",158,143,0.37,Substitution
+182,"('LÉLIE.', ""D'où vous naît cette plainte ? Et quel chagrin brutal..."")","('CÉPHISE.', ""D'où vient l'emportement où je vois que vous êtes. "")",159,144,0.54,Substitution
+183,"('SGANARELLE.', ""Suffit, vous savez bien où le bois me fait mal ; Mais votre conscience et le soin de votre âme Vous devraient mettre aux yeux que ma femme est ma femme, Et vouloir à ma barbe en faire votre bien, Que ce n'est pas du tout agir en bon chrétien."")",,160,-,1.0,Insertion
+184,"('LÉLIE.', ""Un semblable soupçon est bas et ridicule, Allez, dessus ce point n'ayez aucun scrupule, Je sais qu'elle est à vous, et bien loin de brûler..."")","('ALCIPPE.', 'Ah ! Que vous feignez bien. ')",161,145,0.74,Substitution
+185,"('CÉLIE.', ""Ah ! Qu'ici tu sais bien traître, dissimuler !"")",,162,-,1.0,Insertion
+186,"('LÉLIE.', ""Quoi me soupçonnez-vous d'avoir une pensée De qui son âme ait lieu de se croire offensée ? De cette lâcheté voulez-vous me noircir ?"")","('CÉPHISE.', ""De quoi m'accuse-t-on ? "")",163,146,1.18,Substitution
+187,"('CÉLIE.', ""Parle, parle à lui-même, il pourra t'éclaircir."")",,164,-,1.0,Insertion
+188,"('SGANARELLE.', ""Vous me défendez mieux que je ne saurais faire, Et du biais qu'il faut vous prenez cette affaire."")",,165,-,1.0,Insertion
+189,"('LA FEMME DE SGANARELLE, à Célie.', ""Je ne suis point d'humeur à vouloir contre vous Faire éclater Madame, un esprit trop jaloux ; Mais je ne suis point dupe et vois ce qui se passe : Il est de certains feux de fort mauvaise grâce, Et votre âme devrait prendre un meilleur emploi, Que de séduire un coeur qui doit n'être qu'à moi."")","('SPADARILLE.', ""Je pourrais bien Madame avec quelque raison  Vous faire voir ici ce que peut ma colère,  Et débaucher ainsi l'objet qui m'a su plaire,  C'est fort mal fait à vous. "")",166,147,0.0,Match
+190,"('CÉLIE.', 'La déclaration est assez ingénue.')","('ALCIPPE.', 'Sa déclaration  Ne fait que trop hélas, voir votre passion. ')",167,148,1.16,Substitution
+191,,"('CÉPHISE.', 'Que veut dire ceci ? ')",-,149,1.0,Deletion
+192,"('SGANARELLE, à sa femme.', ""L'on ne demandait pas carogne ta venue, Tu la viens quereller lorsqu'elle me défend, Et tu trembles de peur qu'on t'ôte ton galant."")","('PAQUETTE, à Spadarille.', ""Tu ne viens infidèle  Que de peur qu'on maltraite ici ta Demoiselle. "")",168,150,0.58,Substitution
+193,"('CÉLIE.', ""Allez, ne croyez pas que l'on en ait envie. Tu vois si c'est mensonge, et j'en suis fort ravie."")",,169,-,1.0,Insertion
+194,"('LÉLIE.', 'Que me veut-on conter ?')",,170,-,1.0,Insertion
+195,"('LA SUIVANTE.', ""Ma foi, je ne sais pas Quand on verra finir ce galimatias, Déjà depuis longtemps je tâche à le comprendre, Et si plus je l'écoute et moins je puis l'entendre ; Je vois bien à la fin que je m'en dois mêler. Répondez-moi par ordre et me laissez parler. Vous, qu'est-ce qu'à son coeur peut reprocher le vôtre ? Allant se mettre entre Lélie et sa maîtresse. À Lélie."")","('ROGUESPINE.', ""Déjà depuis longtemps je tâche à concevoir  Ce galimatias, et je ne puis savoir,  Quel sujet peut entre eux causer un si grand trouble,  Mais je m'en veux mêler de peur qu'il ne redouble.  Et que de leur querelle il n'arrive malheur.  Répondez-moi par ordre, et c'est un coup bien sûr  Que je vous tirerai des peines où vous êtes,  Et qu'on verra dans peu vos âmes satisfaites.  Vous parlez s'il vous plaît, d'où vient votre courroux ?  Que mon maître a-t-il fait, de quoi l'accusez-vous ?  Allant se mettre entre Alcippe et Céphise. À Céphise."")",171,151,0.0,Match
+196,"('LÉLIE.', ""Que l'infidèle a pu me quitter pour un autre ; Que lorsque, sur le bruit de son hymen fatal, J'accours tout transporté d'un amour sans égal, Dont l'ardeur résistait à se croire oubliée, Mon abord en ces lieux la trouve mariée."")","('CÉPHISE.', ""Qu'après m'avoir promis une éternelle flamme  Le traître en mon absence a pu prendre une femme. "")",172,152,0.0,Match
+197,,"('ROGUESPINE.', 'Une femme. ')",-,153,1.0,Deletion
+198,"('LA SUIVANTE.', 'Mariée, à qui donc ?')",,173,-,1.0,Insertion
+199,"('LÉLIE, montrant Sganarelle.', 'À lui.')","('CÉPHISE.', 'Une femme et présente en ces lieux. ')",174,154,1.58,Substitution
+200,"('LA SUIVANTE.', 'Comment à lui ?')","('ROGUESPINE.', 'Nommez-nous donc encor cet objet glorieux ? ')",175,155,1.13,Substitution
+201,"('LÉLIE.', 'Oui-da.')","('CÉPHISE, montrant Paquette.', 'Le voilà. ')",176,156,0.32,Substitution
+202,"('LA SUIVANTE.', ""Qui vous l'a dit ?"")",,177,-,1.0,Insertion
+203,"('LÉLIE.', ""C'est lui-même, aujourd'hui."")",,178,-,1.0,Insertion
+204,"('LA SUIVANTE, à Sganarelle.', 'Est-il vrai ?')",,179,-,1.0,Insertion
+205,"('SGANARELLE.', ""Moi, j'ai dit que c'était à ma femme Que j'étais marié."")","('ROGUESPINE, à Paquette.', ""Que me conte-t-on, moi  J'ai dit qu'à mon mari j'avais donné ma foi,  Et que j'étais sa femme. "")",180,157,0.59,Substitution
+206,"('LÉLIE.', ""Dans un grand trouble d'âme, Tantôt de mon portrait je vous ai vu saisi."")",,181,-,1.0,Insertion
+207,"('SGANARELLE.', 'Il est vrai : le voilà.')",,182,-,1.0,Insertion
+208,"('LÉLIE.', ""Vous m'avez dit aussi Que celle aux mains de qui vous aviez pris ce gage Était liée à vous des noeuds du mariage."")","('CÉPHISE.', ""Une heureuse aventure  M'ayant fait reconnaître en vos mains ma peinture,  Ne m'avez vous pas dit aussitôt que l'objet  Des mains dont vous veniez de prendre mon portrait  Était votre mari. "")",183,158,0.53,Substitution
+209,"('SGANARELLE, montrant sa femme.', ""Sans doute, et je l'avais de ses mains arraché, Et n'eusse pas sans lui découvert son péché."")","('PAQUETTE.', ""Cela pourrait bien être ;  Car je l'avais surpris dans les mains de ce traître,  Et n'eusse pas sans lui fait savoir son forfait.  Lui montrant son mari."")",184,159,0.0,Match
+210,"('LA FEMME DE SGANARELLE.', ""Que me viens-tu conter par ta plainte importune ? Je l'avais sous mes pieds rencontré par fortune, Et même quand après ton injuste courroux J'ai fait dans sa faiblesse entrer Monsieur chez nous. Je n'ai pas reconnu les traits de sa peinture. Montrant Lélie."")","('SPADARILLE.', ""Que me viens-tu conter avecque ton portrait  C'est à tort là-dessus que le courroux t'emporte,  Je l'avais par bonheur trouvé près notre porte,  Et même quand après ton grand emportement  Ayant pris à Madame un mal subitement  Je l'ai jusques chez nous conduit à la même heure :  Et dedans ce moment, je n'ai pas où je meure  Remarqué que c'était la Dame du portrait. "")",185,160,0.0,Match
+211,,"('PAQUETTE.', 'Voyez comme il sait bien déguiser son forfait. ')",-,161,1.0,Deletion
+212,"('CÉLIE.', ""C'est moi qui du portrait ai causé l'aventure Et je l'ai laissé choir en cette pâmoison Qui m'a fait par vos soins remettre à la maison. À Sganarelle."")","('ALCIPPE.', ""C'est à tort sur ce point que votre coeur murmure,  Et j'ai de ce portrait fait naître l'aventure,  Puisque pour mon malheur tantôt sans le savoir,  Dans le mal qui m'a pris je l'avais laissé choir. "")",186,162,0.01,Substitution
+213,"('LA SUIVANTE.', ""Vous voyez que sans moi vous y seriez encore, Et vous aviez besoin de mon peu d'ellébore."")",,187,-,1.0,Insertion
+214,"('SGANARELLE.', ""Prendrons-nous tout ceci pour de l'argent comptant ; Mon front l'a sur mon âme eu bien chaude pourtant ?"")",,188,-,1.0,Insertion
+215,"('SA FEMME.', ""Ma crainte toutefois n'est pas trop dissipée Et doux que soit le mal ; je crains d'être trompée."")","('ROGUESPINE.', ""Les choses que je dis doivent passer pour sûres,  Et ne suis-je pas un grand dénoueur d'aventures. "")",189,163,0.66,Substitution
+216,"('SGANARELLE.', ""Hé ! Mutuellement croyons-nous gens de bien, Je risque plus du mien que tu ne fais du tien : Accepte sans façon le marché qu'on propose."")","('PAQUETTE.', 'Dois-je à de tels discours ajouter quelque foi ?  Oui, puisque enfin notre homme est bonhomme ma foi,  Touche-là. ')",190,164,1.02,Substitution
+217,"('SA FEMME.', ""Soit, mais gare le bois si j'apprends quelque chose."")","('SPADARILLE.', 'Tu sais que quoi que tu puisses faire,  Je ne puis contre toi retenir ma colère. ')",191,165,1.58,Substitution
+218,"('CÉLIE, à Lélie, après avoir parlé bas ensemble.', ""Ah ! Dieux s'il est ainsi, qu'est-ce donc que j'ai fait ? Je dois de mon courroux appréhender l'effet : Oui, vous croyant sans foi, j'ai pris pour ma vengeance. Le malheureux secours de mon obéissance ; Et depuis un moment mon coeur vient d'accepter Un hymen que toujours j'eus lieu de rebuter, J'ai promis à mon père, et ce qui me désole... Mais je le vois venir."")","('ALCIPPE, à Céphise après avoir parlé bas ensemble.', ""Oui, oui, jusqu'à ce point j'ai bien pu me trahir,  Vous croyant sans honneur j'ai promis d'obéir.  Mais mon père paraît. "")",192,166,0.0,Match
+219,"('LÉLIE.', 'Il me tiendra parole.')",,193,-,1.0,Insertion
+220,"('LÉLIE.', ""Monsieur, vous me voyez en ces lieux de retour Brûlant des mêmes feux, et mon ardente amour Verra comme je crois la promesse accomplie Qui me donna l'espoir de l'hymen de Célie."")","('CÉPHISE.', 'Ah ! Funeste aventure,  Tu mets pour tout jamais mon âme à la torture. ')",194,167,1.03,Substitution
+221,"('GORGIBUS.', ""Monsieur, que je revois en ces lieux de retour Brûlant des mêmes feux, et dont l'ardente amour Verra que vous croyez la promesse accomplie Qui vous donna l'espoir de l'hymen de Célie, Très humble serviteur à votre seigneurie."")","('GÉRONTE.', 'Quoi, Céphise en ces lieux ? ')",195,168,1.15,Substitution
+222,"('LÉLIE.', ""Quoi ? Monsieur, est-ce ainsi qu'on trahit mon espoir ?"")",,196,-,1.0,Insertion
+223,"('GORGIBUS.', ""Oui Monsieur, c'est ainsi que je fais mon devoir, Ma fille en suit les lois."")",,197,-,1.0,Insertion
+224,"('CÉLIE.', ""Mon devoir m'intéresse, Mon père, à dégager vers lui votre promesse."")",,198,-,1.0,Insertion
+225,"('GORGIBUS.', ""Est-ce répondre en fille à mes commandements ? Tu te démens bientôt de tes bons sentiments, Pour Valère tantôt... Mais j'aperçois son père, Il vient assurément pour conclure l'affaire."")","('CÉPHISE.', ""Oui je suis de retour,  Et le dépit m'amène ici plus que l'amour.  Je viens vous reprocher... "")",199,169,0.73,Substitution
+226,"('GORGIBUS.', 'Qui vous amène ici, Seigneur Villebrequin ?')",,200,-,1.0,Insertion
+227,"('VILLEBREQUIN.', ""Un secret important, que j'ai su ce matin, Qui rompt absolument ma parole donnée. Mon fils, dont votre fille acceptait l'hyménée, Sous des liens cachés trompant les yeux de tous, Vit, depuis quatre mois, avec Lise en époux ; Et comme des parents le bien et la naissance M'ôtent tout le pouvoir d'en casser l'alliance, Je vous viens..."")","('GÉRONTE.', ""Soyez moins en colère.  Le Ciel prend votre cause et veut vous satisfaire,  Puisque depuis longtemps sans qu'on le sût chez eux,  Hippolyte et Cléon sont mariés tous deux ;  C'est pourquoi je vous tiens ma parole donnée,  Et veux voir achever dans peu votre hyménée,  Si votre coeur encor y veut bien consentir  Et veut me pardonner après mon repentir. "")",201,170,0.11,Substitution
+228,,"('CÉPHISE.', ""Que ne ferait-on point, hélas, lorsque l'on aime ! "")",-,171,1.0,Deletion
+229,"('GORGIBUS.', ""Brisons là, si sans votre congé, Valère votre fils ailleurs s'est engagé, Je ne vous puis celer que ma fille Célie, Dès longtemps par moi-même est promise à Lélie, Et que riche en vertus son retour aujourd'hui M'empêche d'agréer un autre époux que lui."")","('ALCIPPE.', 'Que ne vous dois-je point pour ce plaisir extrême. ')",202,172,0.84,Substitution
+230,"('VILLEBREQUIN.', 'Un tel choix me plaît fort.')",,203,-,1.0,Insertion
+231,"('LÉLIE.', ""Et cette juste envie, D'un bonheur éternel va couronner ma vie."")","('ROGUESPINE.', ""Si de l'autre mon maître eût épousé la peau,  Il eût été chargé de la vache et du veau. "")",204,173,1.66,Substitution
+232,"('GORGIBUS.', 'Allons choisir le jour pour se donner la foi.')",,205,-,1.0,Insertion
+233,"('SGANARELLE.', ""A-t-on mieux cru jamais être cocu que moi ? Vous voyez qu'en ce fait la plus forte apparence Peut jeter dans l'esprit une fausse créance ? De cet exemple-ci, ressouvenez-vous bien, Et quand vous verriez tout, ne croyez jamais rien. Sans mentir, Monsieur, vous me devez être bien obligé de tant de belles choses que je vous envoie, et tous les melons de votre jardin ne sont pas suffisants pour me payer de la peine d'avoir retenu pour l'amour de vous toute cette pièce par coeur ; mais j'oubliais de vous dire une chose à l'avantage de son auteur, qui est que comme je n'ai eu cette pièce que je vous envoie que par de effort de mémoire, il peut s'y être coulé quantité de mots les uns pour les autres, bien qu'ils signifient la même chose ; et comme ceux de l'auteur peuvent être plus significatifs, je vous prie de m'imputer toutes les fautes de cette nature que vous y trouverez ; et je vous conjure avec tous les curieux de France de venir voir représenter cette pièce comme un des plus beaux ouvrages, et un des mieux joués qui ait jamais paru sur la scène."")","('SPADARILLE.', ""Il est bien des cocus dans le Siècle où nous sommes,  C'est un mal à présent commun à tous les hommes,  Il prend également le laid et le bien fait,  Aucuns le sont en songe, et d'autres en effet,  D'autres le sont aussi qui ne croient pas l'être,  D'autres qui ne font pas semblant de le connaître,  D'autres qui voudraient bien aussi ne l'être pas,  D'autres qui font par là venir de bons Ducats ;  Et d'autres qui toujours se forment des chimères,  Dont le nombre est plus grand, ne sont qu'imaginaires."")",206,174,0.17,Substitution
+</textarea>
+        <button type="button">Charger l'alignement des textes</button>
+    </section>
+    <section id="aligneur">
+        <h2>&Eacute;diteur d'alignement</h2>
+        <textarea id="alignment"></textarea>
+        <table id="table">
+            <tbody>
+                <tr>
+                    <th># texte 1</th>
+                    <th>texte 1</th>
+                    <th>texte 2</th>
+                    <th># texte 2</th>
+                    <th>coût</th>
+                </tr>
+            </tbody>
+        </table>
+
+    </section>
+    <script>
+        let data = Papa.parse(document.querySelector("#inputText").innerHTML);
+        let n1 = 0;
+        let n2 = 0;
+        console.log(data)
+        data.data.forEach(d => {
+            class1 = "";
+            class2 = "";
+            id1 = "";
+            id2 = "";
+            if (d[1] != "") {
+                n1++;
+                id1 = `<span class="insert">+</span><span class="delete">-</span><span class="up">▲</span>${n1}<span class="down">▼</span>`
+            } else {
+                class2 = "insertion"
+            }
+            if (d[2] != "") {
+                n2++;
+                id2 = n2
+            } else {
+                class1 = "deletion"
+            }
+            console.log(d[5])
+            if (d[6] == "Match") {
+                class1 = "match";
+                class2 = "match";
+            }
+            if (d[6] == "Substitution") {
+                if (parseFloat(d[5]) < 0.8) {
+                    class1 = "almost-almost-match";
+                    class2 = "almost-almost-match";
+                }
+                if (parseFloat(d[5]) < 0.5) {
+                    class1 = "almost-match";
+                    class2 = "almost-match";
+                }
+            }
+            document.querySelector("tbody").innerHTML += `<tr>
+            <td>${id1}</td>
+            <td class="${class1}">${d[1]}</td>
+            <td class="${class2}">${d[2]}</td>
+            <td>${id2}</td>
+            <td>${d[5]}</td>
+            </tr>`;
+        })
+
+        function moveDown(event) {
+            let target = event.target;
+            let tr = target.parentElement.parentElement;
+            let nextTr = tr.nextSibling;
+            if (nextTr.querySelectorAll("td")[1].innerHTML == "") {
+                // précédent élément vide
+                nextTr.querySelectorAll("td")[0].innerHTML = tr.querySelectorAll("td")[0].innerHTML;
+                tr.querySelectorAll("td")[0].innerHTML = "";
+                nextTr.querySelectorAll("td")[1].innerHTML = tr.querySelectorAll("td")[1].innerHTML;
+                tr.querySelectorAll("td")[1].innerHTML = "";
+            }
+            eventListeners()
+        }
+
+        function moveUp(event) {
+            let target = event.target;
+            let tr = target.parentElement.parentElement;
+            let previousTr = tr.previousSibling;
+            if (previousTr.querySelectorAll("td")[1].innerHTML == "") {
+                // précédent élément vide
+                previousTr.querySelectorAll("td")[0].innerHTML = tr.querySelectorAll("td")[0].innerHTML;
+                tr.querySelectorAll("td")[0].innerHTML = "";
+                previousTr.querySelectorAll("td")[1].innerHTML = tr.querySelectorAll("td")[1].innerHTML;
+                tr.querySelectorAll("td")[1].innerHTML = "";
+            }
+            eventListeners()
+        }
+
+        function deleteLine(event) {
+            let target = event.target;
+            let tr = target.parentElement.parentElement;
+            let previousTr = tr.previousSibling;
+            if ((previousTr.querySelectorAll("td")[1].innerHTML == "") && (previousTr.querySelectorAll("td")[2].innerHTML == "")) {
+                // précédent élément vide
+                previousTr.remove();
+            }
+            eventListeners()
+        }
+
+            function insertLine(event) {
+            let target = event.target;
+            let tr = target.parentElement.parentElement;
+            let previousTr = document.createElement("tr");
+            previousTr.innerHTML = `<tr>
+            <td></td>
+            <td class=""></td>
+            <td class=""></td>
+            <td></td>
+            <td></td>
+            </tr>`;
+            tr.insertAdjacentElement("beforebegin", previousTr);
+            eventListeners()
+        }
+
+        function eventListeners() {
+
+            // déplace vers le haut
+            document.querySelectorAll(".up").forEach(e => {
+                e.removeEventListener("click", moveUp);
+                e.addEventListener("click", moveUp);
+            })
+
+            // déplace vers le bas
+            document.querySelectorAll(".down").forEach(e => {
+                e.removeEventListener("click", moveDown);
+                e.addEventListener("click", moveDown);
+            })
+
+            // insère en haut
+            document.querySelectorAll(".insert").forEach(e => {
+                e.removeEventListener("click", insertLine);
+                e.addEventListener("click", insertLine);
+            })
+
+            // supprime en haut
+            document.querySelectorAll(".delete").forEach(e => {
+                e.removeEventListener("click", deleteLine);
+                e.addEventListener("click", deleteLine);
+            })
+        }
+
+        eventListeners()
+    </script>
+</body>
+
+</html>
