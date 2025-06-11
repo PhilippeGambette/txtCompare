@@ -53,6 +53,10 @@
     <h1>Aligneur</h1>
     <section id="chargement">
         <h2>Chargement des textes</h2>
+        <p>
+            Merci de charger ci-dessous la sortie du script Python développé par Aaron Boussidan
+            pour aligner deux pièces de théâtre.
+        </p>
         Chargement des textes alignés :<br>
         <textarea id="inputText">,Play 1,Play2,Op symbol1,Op symbol2,Cost,Operation Type
 0,"('CÉLIE, sortant toute éplorée, et son père la suivant.', ""Ah ! N'espérez jamais que mon coeur y consente."")","('ALCIPPE, sortant en colère, et son père le suivant.', ""Non, n'espérez jamais de m'y voir consentir. "")",0,0,0.0,Match
@@ -294,6 +298,29 @@
     </section>
     <section id="aligneur">
         <h2>&Eacute;diteur d'alignement</h2>
+        <p>
+            Le tableau ci-dessous indique les répliques de la première pièce en deuxième colonne (leur numéro en première colonne), celles de la deuxième pièce en troisième colonne (leur numéro en quatrième colonne) et le coût d'alignement en cinquième colonne (compris entre 0 et 2, à 0 si les répliques sont très similaires, proche de 2 si elles sont très éloignées).
+        </p>
+        <p>
+            Voici la signification des couleurs utilisées : <span class="match">correspondance des deux répliques</span>, 
+            <span class="almost-match">correspondance probable des deux répliques</span> (score inférieur à 0.5),
+            <span class="almost-almost-match">correspondance possible des deux répliques</span> (score inférieur à 0.8),
+            <span class="insertion">insertion d'une réplique dans la seconde pièce</span>,
+            <span class="deletion">suppression d'une réplique de la première pièce</span>.
+        </p>
+        <p>
+            L'alignement peut être modifié en utilisant les boutons
+            + (insertion d'une ligne vide au-dessus de la réplique), 
+            &ndash; (suppression d'une ligne vide au-dessus de la réplique),
+            ▲ (déplacement de la réplique vers la ligne vide située au-dessus)
+            et ▼ (déplacement de la réplique vers la ligne vide située en dessous).
+            <strong>
+                Attention toutefois, les couleurs et coûts ne sont alors pas mis à jour
+                et peuvent donc alors être trompeurs !
+            </strong>
+        </p>
+
+
         <!--<textarea id="alignment"></textarea>-->
         <table id="table">
             <tbody>
