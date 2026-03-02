@@ -1006,7 +1006,7 @@ function loadSankeyCompare(){
 
     ]
     },
-
+        {
    titreLong : 'chapitres des <i>Memoires de l’Eetat de la France sous Charles IX</i> de Simon Goulart, dans les éditions de 1576-1577 et de 1578',
    titreCourt : 'chapitres des <i>Memoires de l’estat de la France sous Charles IX</i>',
    option: 'éditions de 1576-1577 et de 1578 des <i>Memoires de l’Estat de la France sous Charles IX</i> de Simon Goulart',
