@@ -114,17 +114,23 @@ function loadSankeyCompare(){
        nbPagesExtrait[texts[i][0]] = texts[i][4];
        var url = texts[i][6];
        
+       // Création du titre tronqué
+       var titreAffiche = texts[i][3];
+       if (titreAffiche.length > 50) {
+           titreAffiche = titreAffiche.substring(0, 50) + "…";
+       }
+       
        if(texts[i][1] == recueils[0]){
           // Affichage du titre de l'extrait sur la gauche
-          $("#label").html(texts[i][3]+"…");
+          $("#label").html(titreAffiche);
           $(".svg g").append('		<path id="r_'+texts[i][0]+'" fill="'+couleurs[numPartie]+'" d="M'+(xLeft-10)+' '+y+' H '+(xLeft)+' V '+(y-hauteurTexte)+' H '+(xLeft-10)+' L '+(xLeft-10)+' '+y+'">');          
           // Ajout d'un lien vers l'extrait
-          $(".svg g").append('    <a xlink:show="new" xlink:href="'+url+'" xlink:title="Accéder au texte…"><text id="t_'+texts[i][0]+'" x="'+(xLeft-parseInt($("#label").css("width"))-20)+'" y="'+(y)+'" fill="'+couleurs[numPartie]+'" font-size="'+hauteurParDefaut+'">'+texts[i][3]+'</text></a>');
+          $(".svg g").append('    <a xlink:show="new" xlink:href="'+url+'" xlink:title="Accéder au texte : '+texts[i][3].replaceAll('"',"'")+'"><text id="t_'+texts[i][0]+'" x="'+(xLeft-parseInt($("#label").css("width"))-20)+'" y="'+(y)+'" fill="'+couleurs[numPartie]+'" font-size="'+hauteurParDefaut+'">'+titreAffiche+'</text></a>');
        } else {
           // Affichage du titre de l'extrait sur la droite
           $(".svg g").append('		<path id="r_'+texts[i][0]+'" fill="'+couleurs[numPartie]+'" d="M'+(xRight+10)+' '+y+' H '+(xRight)+' V '+(y-hauteurTexte)+' H '+(xRight+10)+' L '+(xRight+10)+' '+y+'">');
           // Ajout d'un lien vers l'extrait
-          $(".svg g").append('    <a xlink:show="new" xlink:href="'+url+'" xlink:title="Accéder au texte…"><text id="t_'+texts[i][0]+'" x="'+(xRight+20)+'" y="'+(y)+'" fill="'+couleurs[numPartie]+'" font-size="'+hauteurParDefaut+'">'+texts[i][3]+'</text></a>');       
+          $(".svg g").append('    <a xlink:show="new" xlink:href="'+url+'" xlink:title="Accéder au texte : '+texts[i][3].replaceAll('"',"'")+'"><text id="t_'+texts[i][0]+'" x="'+(xRight+20)+'" y="'+(y)+'" fill="'+couleurs[numPartie]+'" font-size="'+hauteurParDefaut+'">'+titreAffiche+'</text></a>');       
 
           if(texts[i][5]!="" && titreTextes["i"+texts[i][5]]!=undefined){
              // Ajout du lien entre l'extrait de droite et un extrait de gauche
@@ -1007,7 +1013,7 @@ function loadSankeyCompare(){
     ]
     },
         {
-   titreLong : 'chapitres des <i>Memoires de l’Eetat de la France sous Charles IX</i> de Simon Goulart, dans les éditions de 1576-1577 et de 1578',
+   titreLong : 'chapitres des <i>Memoires de l’Eetat de la France sous Charles IX</i> de Simon Goulart, dans les <a href="https://www.e-rara.ch/gep_g/content/zoom/3712409">éditions de 1576-1577</a> et <a href="https://www.e-rara.ch/gep_g/content/titleinfo/1033016">de 1578</a> (version provisoire, en cours de relecture par Coumba Gackou, dans le cadre de son <a href="http://digis.hypotheses.org/">projet DIGIS</a> et de son mémoire de <a href="https://lscn.hypotheses.org/">master LSCN</a>.)',
    titreCourt : 'chapitres des <i>Memoires de l’estat de la France sous Charles IX</i>',
    option: 'éditions de 1576-1577 et de 1578 des <i>Memoires de l’Estat de la France sous Charles IX</i> de Simon Goulart',
    ecart : 11,
