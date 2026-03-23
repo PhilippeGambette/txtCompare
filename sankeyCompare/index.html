@@ -10,6 +10,7 @@
   body{font-family:Calibri}
   </style>
 </head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <SCRIPT TYPE="text/javascript" SRC="https://cdn.plot.ly/plotly-1.2.0.min.js"></SCRIPT>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha512-bnIvzh6FU75ZKxp0GXLH9bewza/OIw6dLVh9ICg0gogclmYGguQJWl8U30WpbsGTqbIiAwxTsbe76DErLq5EDQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <SCRIPT TYPE="text/javascript" SRC="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></SCRIPT>
@@ -18,6 +19,15 @@
 <div class="conteneur">
 
 <h1><i>sankeyCompare</i> : comparaison de l’ordre des <span id="titreCourt">nouvelles de <i>L’Heptaméron</i></span></h1>
+
+<div style="display:block;background-color:#DDDDDD;padding:1em;">
+<h2>Visualisez vos données :</h2>
+Entrez ci-dessous l'adresse des deux fichiers CSV contenant les données que vous souhaitez représenter avec sankeyCompare (<a href="https://docs.google.com/spreadsheets/d/1mgNHWVvg1UGR01FOJOvMW3EmyDyO9uwYVyRFKSSxnZo/edit?usp=sharing">exemple dans un document Google Sheets</a>) :<br/>
+<label for="dataCsv">URL du fichier CSV des données de la visualisation (<a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQgInowD87JuydnN8tx2rb9LuQ2JojYAX6oRWjw8ovlA8UstmNI6ZM1xv5I7ftT9Doc2NiFrAzkP-b6/pub?gid=0&single=true&output=csv">exemple au format CSV</a>) :</label> <input value="https://docs.google.com/spreadsheets/d/e/2PACX-1vQgInowD87JuydnN8tx2rb9LuQ2JojYAX6oRWjw8ovlA8UstmNI6ZM1xv5I7ftT9Doc2NiFrAzkP-b6/pub?gid=0&single=true&output=csv" type="text" id="dataCsv"><br>
+<label for="metadataCsv">URL du fichier CSV des métadonnées de la visualisation (<a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQgInowD87JuydnN8tx2rb9LuQ2JojYAX6oRWjw8ovlA8UstmNI6ZM1xv5I7ftT9Doc2NiFrAzkP-b6/pub?gid=668224341&single=true&output=csv">exemple au format CSV</a>) :</label> <input value="https://docs.google.com/spreadsheets/d/e/2PACX-1vQgInowD87JuydnN8tx2rb9LuQ2JojYAX6oRWjw8ovlA8UstmNI6ZM1xv5I7ftT9Doc2NiFrAzkP-b6/pub?gid=668224341&single=true&output=csv" type="text" id="metadataCsv"><br>
+<button id="customUrl">Afficher la visualisation !</button><br>
+<a href="" id="permalink">Permalien 🔗</a>
+</div>
 
 <p>
 Le <a href="https://fr.wikipedia.org/wiki/Diagramme_de_Sankey">diagramme de Sankey</a> ci-dessous 
@@ -34,6 +44,7 @@ Choisir un autre texte :
 <option value="1">éditions de 1774 et 1781 des <i>Conversations d’Émilie</i> de Louise d’Épinay</option>
 </select>
 </p>
+
 
 <div class="svg">
 </div>
@@ -55,11 +66,6 @@ Mis à disposition sous licence GPL, il a été conçu et programmé en Javascri
 Conçu et programmé indépendamment de <i>SankeyTextualVariant</i>, <i>sankeyCompare</i> n’utilise pas d3.js, rend le diagramme interactif avec des liens vers les textes sources, et permet de le colorer en fonction d’un éventuel découpage en parties des deux éditions comparées.
 </p>
 
-<div style="display:none">
-Entrez votre contenu ci-dessous (contenu séparé par des virgules et entouré par des guillemets droits : "recueil","partie","texte","nb-pages"):<br/>
-<textarea cols="100" rows="20" id="text">
-</textarea>
-</div>
 
 </div>
 </body>
