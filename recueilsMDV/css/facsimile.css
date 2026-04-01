@@ -1,0 +1,132 @@
+
+:-moz-any-link:focus {
+  outline: none;
+}
+.border_none { border: none;}
+
+body {
+	color: #44444C;
+	background-color: #CCC;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	margin: 0;
+	padding: 0;
+}
+
+h1 { margin: 0; padding:0; font-size: 13px; text-align: center;}
+
+.sans_href  a{ padding: 0;}
+.sans_href  a:hover { background-color: transparent;}
+.sans_href img {vertical-align: -2px;}
+a { color: white; text-decoration: none; padding: 1px 3px;}
+a:hover { color: white; text-decoration: none; background-color: #CCC;}
+
+a.jqzoom { text-decoration: none; background-color: transparent;}
+.jqzoom { border: none;}
+
+
+#chapter { float: right; color:#999; font-size: 13px;}
+#buttons {float: left;}
+
+#uberbar  { 
+  border-bottom:1px solid #555; 
+  background:#666; 
+  padding:10px 20px; 
+  position:fixed; 
+  float:left;
+  z-index:2000; 
+  width:1286px;
+  margin: 0;
+}
+
+
+#auto {	
+	  width: 1327px; height: 696px; margin: 0 auto;	
+}
+
+#main {	
+	 float:left; width: 1276px; border-right: 1px solid #949494; border-left: 1px solid #949494; border-bottom: 1px solid #949494; padding: 0 24px 24px 24px; background-color:#fff;	
+}
+.folio { width:525px; float: right; margin: 0 95px 0 0;}
+
+.feuillet {
+	float: left;
+	width: 1276px;
+	height: 656px;
+	margin-bottom: 24px;
+	padding-top: 84px;
+	font-size: 13px;
+}
+
+.reduit {padding-top: 128px;}
+
+.fac_simile {
+	float: left;
+	width: 536px;
+	height: 641px;
+}
+
+.transcript {
+	text-align: justify;
+	float: left;
+	margin-top: 226px;
+	width: 690px;
+	height: 416px;
+	line-height:18px;
+		
+}
+
+.transcript_text {
+	float: left;
+	width: 670px;
+	height: 376px;
+	margin: 0 20px 0 0;
+}
+
+
+.transcript_page_number {
+	float: right;
+	margin-top: -580px;
+	padding: 2px;
+	font-size: 10px;
+	color: white;
+	background-color: #666;
+}
+
+.tiny { font-size: 10px; color:#999;}
+.tiny a { font-size: 10px; color:#999;}
+.tiny a:hover { font-size: 10px; color: white; text-decoration: none; background-color: #CCC;}
+#submenu { float: left; width:540px; line-height: 17px;}
+#chapter { line-height: 17px; color:#444; text-align: right;}
+#chapter a { color: #444; font-size: 11px;}
+#chapter a.active { color: #444; font-size: 13px; background-color: #CCC;}
+#chapter a:hover { color: #444; background-color: #999;}
+#chapter a:hover.sans { background-color: transparent;}
+#chapter a:hover.active { color: #444;}
+#chapter a:hover.active em { color: #444;}
+
+#submenu li {
+ display: inline;
+padding: 1px 4px;
+}
+
+#submenu li a {
+	color:#444;
+	padding: 2px 1px;
+}
+#submenu li a.active,#submenu li a:hover {
+ 	background-color:#EFEFEF;
+}
+#subnav a {
+	color:#444;
+}
+
+.selected { background-color:#CCC;}
+
+#submenu ul{
+float: left;
+ margin: 0;
+padding: 0;	
+}
+em { font-style: italic;}
+select { font-size: 10px; margin: 0; padding: 0;}

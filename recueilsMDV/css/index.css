@@ -1,0 +1,65 @@
+	body, html { margin:0; padding: 0;}
+	#main { width: 1140px; margin: 5% auto;}
+	#container { width: 1100px; float: left; font-size: 10px; height: auto; background-image: url('../img/accueil.jpg'); background-repeat: no-repeat;
+	background-position: left -12px;}
+	#buttons { float: left; margin: -24px 0 0 290px; width: 810px;}
+	#topline {width: 862px; float: right; color: #FFF; font-size: 13px; background-color: #777; padding: 8px 16px 8px 8px; margin: -17px -17px 0 0 ;
+		text-align: right;}
+	
+	#tagline { float: left; margin-top: 120px; color: #999;}
+	#tagline a:hover { text-decoration: underline;}
+	#info { font-size: 12px; clear: both; float:left; width: 1000px;}
+	#lecteur { float: left; width: 300px;}
+	#comparateur {float: left; width: 400px; margin-right: 32px;}
+	.white { color: #FFFFFF; padding: 1px 2px;}
+	#info img { vertical-align: -4px; }
+	.popup_1, .popup_2 {
+	    margin: 200px 0 0 0;
+	    padding: 0;
+	    width: 400px;
+	    position: relative;
+		float:left;
+	}
+
+	div.popup_1 em {
+	    background: url('../img/bubble.gif') no-repeat;
+	    width: 120px;
+	    height: 49px;
+	    position: absolute;
+	    top: -70px;
+	    left: -0px;
+	    text-align: center;
+	    text-indent: -9999px;
+	    z-index: 2;
+	    display: none;
+	}
+	
+		div.popup_2 em {
+		    background: url('../img/bubble_2.gif') no-repeat;
+		    width: 120px;
+		    height: 49px;
+		    position: absolute;
+		    top: -70px;
+		    left: -0px;
+		    text-align: center;
+		    text-indent: -9999px;
+		    z-index: 2;
+		    display: none;
+		}
+
+	#icon_1 {
+	    width: 393px;
+	    height: 73px;
+	    background: url('../img/logo_2.gif') no-repeat 0 0;
+	    text-indent: -9999px;
+	    margin: 0 auto;
+	    display: block;
+	}
+	#icon_2 {
+	    width: 333px;
+	    height: 73px;
+	    background: url('../img/logo.gif') no-repeat 0 0;
+	    text-indent: -9999px;
+	    margin: 0 auto;
+	    display: block;
+	}
