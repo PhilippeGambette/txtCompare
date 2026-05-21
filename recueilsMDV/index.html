@@ -71,6 +71,14 @@
          ["R1819-26", "Élégies, Marie et romances (1819)", "01 Élégies", "Le Pressentiment", "2", "", "https://fr.wikisource.org/wiki/Page:Desbordes-Valmore_-_%C3%89l%C3%A9gies,_Marie_et_romances.pdf/75"],
          ["R1819-27", "Élégies, Marie et romances (1819)", "01 Élégies", "La Douleur", "2", "", "https://fr.wikisource.org/wiki/Page:Desbordes-Valmore_-_%C3%89l%C3%A9gies,_Marie_et_romances.pdf/77"],
          ["R1819-28", "Élégies, Marie et romances (1819)", "01 Élégies", "Les deux Mères", "4", "", "https://fr.wikisource.org/wiki/Page:Desbordes-Valmore_-_%C3%89l%C3%A9gies,_Marie_et_romances.pdf/81"],
+         ["M1819-01", "Élégies, Marie et romances (1819)", "02 Marie", "[Ne le croyez, si l’on vous dit, un jour…]", "1", "", "https://fr.wikisource.org/wiki/%C3%89l%C3%A9gies,_Marie_et_romances/Marie#poeme1"],
+         ["M1819-02", "Élégies, Marie et romances (1819)", "02 Marie", "[Viens donc, viens donc vite, bergère…]", "1", "", "https://fr.wikisource.org/wiki/%C3%89l%C3%A9gies,_Marie_et_romances/Marie#poeme2"],
+         ["M1819-03", "Élégies, Marie et romances (1819)", "02 Marie", "[Un étranger vint un jour au bocage…]", "1", "", "https://fr.wikisource.org/wiki/%C3%89l%C3%A9gies,_Marie_et_romances/Marie#poeme3"],
+         ["M1819-04", "Élégies, Marie et romances (1819)", "02 Marie", "[Olivier, je t’attends ; déjà l’heure est sonnée…]", "1", "", "https://fr.wikisource.org/wiki/%C3%89l%C3%A9gies,_Marie_et_romances/Marie#poeme4"],
+         ["M1819-05", "Élégies, Marie et romances (1819)", "02 Marie", "[Que n’as-tu comme moi pris naissance au village…]", "1", "", "https://fr.wikisource.org/wiki/%C3%89l%C3%A9gies,_Marie_et_romances/Marie#poeme5"],
+         ["M1819-06", "Élégies, Marie et romances (1819)", "02 Marie", "[Marguerite, fleur de tristesse…]", "1", "", "https://fr.wikisource.org/wiki/%C3%89l%C3%A9gies,_Marie_et_romances/Marie#poeme6"],
+         ["M1819-07", "Élégies, Marie et romances (1819)", "02 Marie", "[Peux-tu dormir, paresseuse bergère…]", "1", "", "https://fr.wikisource.org/wiki/%C3%89l%C3%A9gies,_Marie_et_romances/Marie#poeme7"],
+         ["M1819-08", "Élégies, Marie et romances (1819)", "02 Marie", "[La chanson du pêcheur…]", "1", "", "https://fr.wikisource.org/wiki/%C3%89l%C3%A9gies,_Marie_et_romances/Marie#poeme8"],
          ["R1819-29", "Élégies, Marie et romances (1819)", "02 Romances", "Le Soir", "2", "", "https://fr.wikisource.org/wiki/Page%3ADesbordes-Valmore_-_%C3%89l%C3%A9gies%2C_Marie_et_romances.pdf/181"],
          ["R1819-30", "Élégies, Marie et romances (1819)", "02 Romances", "À toi", "2", "", "https://fr.wikisource.org/wiki/Page%3ADesbordes-Valmore_-_%C3%89l%C3%A9gies%2C_Marie_et_romances.pdf/183"],
          ["R1819-31", "Élégies, Marie et romances (1819)", "02 Romances", "L’Aveu permis", "1", "", "https://fr.wikisource.org/wiki/Page%3ADesbordes-Valmore_-_%C3%89l%C3%A9gies%2C_Marie_et_romances.pdf/185"],
@@ -658,18 +666,20 @@
 
       detectMouseOver(document.getElementsByClassName("circle"));
       detectMouseOver(document.getElementsByClassName("line"));
-
-      document.getElementById("clicTitrePoeme").onclick = function () {
+      
+      function reperePoeme() {
          var i = 0;
          var chaineCherchee = document.getElementById("titrePoeme").value.toLowerCase();
          while (i < poesies.length) {
             if (poesies[i][3].toLowerCase().replace(chaineCherchee, "").length < poesies[i][3].toLowerCase().length) {
-               document.getElementsByTagName("circle")[7 + i].setAttribute("stroke-width", 10);
+               document.getElementsByTagName("circle")[8 + i].setAttribute("stroke-width", 10);
             }
             i++;
          }
-
       }
+
+      document.getElementById("clicTitrePoeme").addEventListener("click", reperePoeme);
+      document.getElementById("titrePoeme").addEventListener("keyup", function(event){if(event.key=="Enter"){reperePoeme()}});
 
 
 
@@ -2653,12 +2663,12 @@
             <text y="555" x="10">1830</text>
             <text y="55" x="710">Ouverture</text>
             <text y="70" x="710">Élégies</text>
-            <text y="85" x="710">Romances</text>
-            <text y="100" x="710">Mélanges</text>
-            <text y="115" x="710">Idylles</text>
-            <text y="130" x="710">Poésies diverses</text>
-            <text y="145" x="710">Contes</text>
-            <text y="160" x="710">Poèmes de la nouvelle «&nbsp;Marie&nbsp;»</text>
+            <text y="85" x="710">Poèmes de la nouvelle «&nbsp;Marie&nbsp;»</text>
+            <text y="100" x="710">Romances</text>
+            <text y="115" x="710">Mélanges</text>
+            <text y="130" x="710">Idylles</text>
+            <text y="145" x="710">Poésies diverses</text>
+            <text y="160" x="710">Contes</text>
             <text y="15" x="10" id="label"></text>
             <circle cx="705" cy="50" r="3" fill="#CC5555" stroke="#CC5555" class="circle ">
                <title></title>
@@ -2666,24 +2676,25 @@
             <circle cx="705" cy="65" r="3" fill="#55CC55" stroke="#55CC55" class="circle ">
                <title></title>
             </circle>
-            <circle cx="705" cy="80" r="3" fill="#5555CC" stroke="#5555CC" class="circle ">
+            <circle cx="705" cy="80" r="3" fill="orange" stroke="orange" class="circle ">
                <title></title>
             </circle>
-            <circle cx="705" cy="95" r="3" fill="#CC55CC" stroke="#CC55CC" class="circle ">
+            <circle cx="705" cy="95" r="3" fill="#5555CC" stroke="#5555CC" class="circle ">
                <title></title>
             </circle>
-            <circle cx="705" cy="110" r="3" fill="#55CCCC" stroke="#55CCCC" class="circle ">
+            <circle cx="705" cy="110" r="3" fill="#CC55CC" stroke="#CC55CC" class="circle ">
                <title></title>
             </circle>
-            <circle cx="705" cy="125" r="3" fill="#CCCC55" stroke="#CCCC55" class="circle ">
+            <circle cx="705" cy="125" r="3" fill="#55CCCC" stroke="#55CCCC" class="circle ">
                <title></title>
             </circle>
-            <circle cx="705" cy="140" r="3" fill="#5599EE" stroke="#5599EE" class="circle ">
+            <circle cx="705" cy="140" r="3" fill="#CCCC55" stroke="#CCCC55" class="circle ">
                <title></title>
             </circle>
-            <circle cx="705" cy="155" r="3" fill="orange" stroke="orange" class="circle ">
+            <circle cx="705" cy="155" r="3" fill="#5599EE" stroke="#5599EE" class="circle ">
                <title></title>
-            </circle><a
+            </circle>
+            <a
                href="https://fr.wikisource.org/wiki/Page:Desbordes-Valmore_-_%C3%89l%C3%A9gies,_Marie_et_romances.pdf/13"
                target="_blank">
                <circle cx="60" cy="50" r="3" fill="#CC5555" stroke="#CC5555" class="circle R1819-01">
