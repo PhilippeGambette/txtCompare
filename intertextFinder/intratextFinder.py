@@ -62,10 +62,10 @@ def preprocessLine(string):
    string = string.replace("Ô","ô")   
    
    #for theater, remove [5], [10], etc.
-   res = re.search("(.*)[[][0-9]+[]](.*)",string)
+   res = re.search("(.*)[\[][0-9]+[\]](.*)",string)
    while res:
       string = res.group(1)+res.group(2)
-      res = re.search("(.*)[[][0-9]+[]](.*)",string)
+      res = re.search("(.*)[\[][0-9]+[\]](.*)",string)
    return string
 
 
@@ -76,10 +76,11 @@ and what follows as the second element
 def nextWord(string):
    result=[]
    ponctuation = " _/?.,;:!¨«»+=()°*&\[\] '\-\r\n	"
-   res = re.search("^["+ponctuation+"]*([^"+ponctuation+"]+)["+ponctuation+"]*([^\r\n]*)[\r\n]*$",string)
+   res = re.search("^(["+ponctuation+"]*)([^"+ponctuation+"]+)(["+ponctuation+"]*)([^\r\n]*)[\r\n]*$",string)
    if res:
-      result.append(res.group(1))
       result.append(res.group(2))
+      result.append(res.group(4))
+      result.append(res.group(1)+res.group(2)+res.group(3))
       #print "suit "+res.group(2)
    return result
 
@@ -124,10 +125,10 @@ def buildNGrams(inputAddress,outputAddress,dicoNext):
          resultNextWord=nextWord(lin)
       
    #print dicoNext
-   
+   """
    for key in sorted(dicoNext):
       outputFile.writelines(key+";"+str(len(dicoNext[key]))+"\n")
-                  
+   """               
             
    # On referme le fichier contenant la page web téléchargée
    # et le fichier texte dans lequel on vient d'écrire. 
@@ -141,10 +142,11 @@ find the n-grams of dicoNext present in the input text
 - dicoNext: list of n-grams
 - inputAddress: input text
 - outputFile: output file of the found n-grams
+- inputFileCode: id of the file whose n-grams should be ignored (the one which was used to build dicoNext)
 """
 def findNGrams(dicoNext,dicoResults,inputAddress,inputFileCode,outputFile):
    
-   print("Looking for n-grams")
+   print("Looking for n-grams in " + inputAddress)
    dicoText={}
    ngram=[]
    text=[]
@@ -174,7 +176,7 @@ def findNGrams(dicoNext,dicoResults,inputAddress,inputFileCode,outputFile):
          text.append(resultNextWord[0])
          if (str([ngram[(i+1)%4],ngram[(i+2)%4],ngram[(i+3)%4],ngram[i%4]]) in dicoNext):
             foundNGram = ngram[(i+1)%4]+" "+ngram[(i+2)%4]+" "+ngram[(i+3)%4]+" "+ngram[(i)%4]
-            outputFile.writelines(inputAddress+";"+str(i)+";"+foundNGram+";"+str(len(dicoNext[str([ngram[(i+1)%4],ngram[(i+2)%4],ngram[(i+3)%4],ngram[i%4]])]))+";"+str(dicoNext[str([ngram[(i+1)%4],ngram[(i+2)%4],ngram[(i+3)%4],ngram[i%4]])])+"\n")
+            #outputFile.writelines(inputAddress+";"+str(i)+";"+foundNGram+";"+str(len(dicoNext[str([ngram[(i+1)%4],ngram[(i+2)%4],ngram[(i+3)%4],ngram[i%4]])]))+";"+str(dicoNext[str([ngram[(i+1)%4],ngram[(i+2)%4],ngram[(i+3)%4],ngram[i%4]])])+"\n")
             if not foundNGram in dicoResults:
                 dicoResults[foundNGram] = []
             dicoResults[foundNGram].append([foundNGram,inputFileCode,i])
@@ -183,8 +185,10 @@ def findNGrams(dicoNext,dicoResults,inputAddress,inputFileCode,outputFile):
          lin=resultNextWord[1]
          resultNextWord=nextWord(lin)
    
+   """
    for key in sorted(dicoText):
       outputFile.writelines(inputAddress+";"+nGram+";"+str(len(dicoText[key]))+";"+dicoText[key]+"\n")
+   """
    
    #close the output file
    inputFile.close()      
@@ -195,6 +199,7 @@ def findNGrams(dicoNext,dicoResults,inputAddress,inputFileCode,outputFile):
 # store in the folder variable the address of the folder containing this program
 folder = (os.path.dirname(os.path.abspath(sys.argv[0])))
 
+# dicoNext associates, to all 4-grams of the input texts, 
 dicoNext={}
 files = []
 
@@ -222,7 +227,6 @@ fileCode = 0
 
 # Graph of number of common 4grams between texts
 graph = [];
-
 
 # Look for n-grams in other files, in the TXT folder
 for file in glob.glob(folder+"\\TXT\\*.txt"):
@@ -285,7 +289,7 @@ for file in glob.glob(folder+"\\TXT\\*.txt"):
    for s in graph:
       s.append(0);
    # Display the address of the file being treated
-   print("Currently building results from file "+file) 
+   print("Currently building results from file "+file)
    htmlFile = open(file+".html","w",encoding='utf-8')
    htmlFile.writelines("<html>\n  <head>\n  <title>"+os.path.basename(file)+"</title>\n  <meta charset=\"UTF-8\">\n  </head>\n<body>\n")
    inputFile = open(file,"r",encoding='utf-8')
@@ -306,27 +310,31 @@ for file in glob.glob(folder+"\\TXT\\*.txt"):
       #print(resultNextWord[0])
          ngram[i%4]=resultNextWord[0]
          theNgram = ngram[(i+1)%4]+" "+ngram[(i+2)%4]+" "+ngram[(i+3)%4]+" "+ngram[i%4]
-         word = ngram[(i+1)%4].replace("&","&amp;").replace("<","&lt;").replace("&","&gt;")
+         word = resultNextWord[2].replace("&","&amp;").replace("<","&lt;").replace(">","&gt;")#ngram[(i+1)%4]
          previouslyFoundNgramPositions = foundNgramPositions
          foundNgramPositions = []
          if theNgram in dicoResults:
-            # Sum up the number of times the n-gram was found in the other fles
+            # Sum up the number of times the n-gram was found in the other files
             nbFound = 0
             combinesWithPreviouslyFoundNgram = False
             infoAboutFoundNGrams = ""
+            maxFoundNgramNumber = 12
             for foundNGram in dicoResults[theNgram]:
-               if foundNGram[1] != currentFileCode:
+               if foundNGram[1] != currentFileCode and nbFound < maxFoundNgramNumber:
                   nbFound += 1
                   pos = foundNGram[2]
                   foundNgramPositions.append(pos)
                   if pos-1 in previouslyFoundNgramPositions:
                         combinesWithPreviouslyFoundNgram = True
+                        #print("combines!!!")
                   infoAboutFoundNGrams += foundNGram[0]+" "+files[foundNGram[1]]+" "+str(foundNGram[2])+"&#10;"
+               if nbFound == maxFoundNgramNumber:
+                  infoAboutFoundNGrams += "..."
             if nbFound >0:
                if combinesWithPreviouslyFoundNgram:
-                  htmlFile.writelines("<span style=\"color:red;opacity:"+str(1.0/nbFound)+"\"><u><a title=\""+infoAboutFoundNGrams+"\">"+word+"</u></a></span>\n")
+                  htmlFile.writelines("<span style=\"color:red;opacity:"+str(1.0/nbFound)+"\"><u><a alt=\""+infoAboutFoundNGrams+"\">"+word+"</u></a></span>\n")
                else:
-                  htmlFile.writelines("<span style=\"color:red;opacity:"+str(1.0/nbFound)+"\"><a title=\""+infoAboutFoundNGrams+"\">"+word+"</a></span>\n")
+                  htmlFile.writelines("<span style=\"color:red;opacity:"+str(1.0/nbFound)+"\"><a alt=\""+infoAboutFoundNGrams+"\">"+word+"</a></span>\n")
             else:
                htmlFile.writelines(word+"\n")
          else:
@@ -336,7 +344,12 @@ for file in glob.glob(folder+"\\TXT\\*.txt"):
          resultNextWord=nextWord(lin)
    currentFileCode += 1
    inputFile.close()
-   htmlFile.writelines("</body></html>")
+   htmlFile.writelines("<div id=\"tooltip\" style=\"position:fixed;left:0px;background-color:yellow;padding:5px;border-radius:5px\"></div></body>\n")
+   htmlFile.writelines("<script>document.querySelectorAll('a').forEach(lien=>{\n")
+   htmlFile.writelines("   lien.addEventListener('mouseover',event => {let t=document.querySelector('#tooltip'); t.innerHTML = lien.getAttribute('alt').replaceAll('\\n','<br>'); console.log(event.clientX+' ,'+ event.clientY); t.style.top=event.clientY+20; t.style.left=Math.max(0,event.clientX-400); t.style.right=window.innerWidth-t.style.left-400});\n")
+   htmlFile.writelines("   lien.addEventListener('mouseleave',event => {document.querySelector('#tooltip').innerHTML = ''});\n")
+   htmlFile.writelines("})</script>\n")
+   htmlFile.writelines("</html>")
    htmlFile.close()
 
 outputFile.close()
